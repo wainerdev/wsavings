@@ -1,0 +1,9 @@
+const path = require('path');
+
+module.exports = {
+  'config': path.resolve(__dirname, 'dist', 'src', 'shared', 'infrastructure', 'databases', 'postgresql', 'config.js'),
+  'models-path': path.resolve(__dirname, 'dist', 'src', 'shared', 'infrastructure', 'databases', 'postgresql', 'models'),
+  'seeders-path': path.resolve(__dirname, 'src', 'shared', 'infrastructure', 'databases', 'postgresql', 'seeders'),
+  'migrations-path': path.resolve(__dirname, 'src', 'shared', 'infrastructure', 'databases','postgresql', 'migrations')
+};
+
