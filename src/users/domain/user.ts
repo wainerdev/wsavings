@@ -1,7 +1,10 @@
 export class User {
   constructor(
-    readonly id: string,
+    readonly id: number,
     readonly email: string,
-    readonly slackUserId: string
+    readonly fullName: string,
+    readonly password: string,
+    readonly createdAt: Date,
+    readonly updatedAt: Date
   ) {}
 }

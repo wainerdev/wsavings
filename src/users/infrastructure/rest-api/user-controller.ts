@@ -1,13 +1,35 @@
 import { Request, Response } from "express";
-
-import { WelcomeMessageSender } from "../../application/welcome-message-sender";
+import { UserService } from "../../application/user-service";
+import { UserDtoMapper } from "../mapper/UserDtoMapper";
 
 export class UserController {
-  constructor(private readonly welcomeMessageSender: WelcomeMessageSender) {}
+  constructor(private readonly userService: UserService) {}
 
-  async sendWelcomeMessage(req: Request, res: Response) {
-    const { id: userId } = req.params;
-    await this.welcomeMessageSender.sendToUser(userId);
+  async saveTransaction(req: Request, res: Response) {
+    const today = new Date();
+    const { id, fullName, email, password } = req.body;
+
+    const mappedTransaction = UserDtoMapper.toDomain(
+      id,
+      email,
+      fullName,
+      password,
+      today, // createdAt
+      today // updatedAt
+    );
+
+    await this.userService.save(mappedTransaction);
+
     res.status(200).send();
+  }
+
+  async findByUserId(req: Request, res: Response) {
+    const { userId } = req.params;
+
+    const transactions = await this.userService.findByUserId(
+      userId
+    );
+
+    res.status(200).send(transactions);
   }
 }

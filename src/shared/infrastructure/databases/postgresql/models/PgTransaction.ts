@@ -2,23 +2,28 @@ import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../sequelize";
 import { PgUser } from "./PgUser";
 
-interface TransactionRow {
+export interface TransactionRow {
   id: number;
-  user: string;
   amount: number;
   description: string;
+  userId: number;
   type: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export class PgTransaction extends Model<
   TransactionRow,
-  Omit<TransactionRow, "id">
+  Omit<TransactionRow, "id" | "createdAt" | "updatedAt">
 > {
   declare id: number;
-  declare user: string;
   declare amount: number;
   declare description: string;
+  declare userId: number;
+  declare users: PgUser;
   declare type: string;
+  declare createdAt: Date;
+  declare updatedAt: Date;
 }
 
 PgTransaction.init(
@@ -28,8 +33,8 @@ PgTransaction.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    user: {
-      type: DataTypes.STRING,
+    userId: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     description: {
@@ -43,6 +48,14 @@ PgTransaction.init(
     type: {
       type: DataTypes.ENUM,
       values: ["I", "E"], // I = Income, E = Expense
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false
     }
   },
   {
@@ -51,8 +64,5 @@ PgTransaction.init(
     tableName: "transactions",
   }
 );
-
-PgTransaction.belongsTo(PgUser)
-
 
 

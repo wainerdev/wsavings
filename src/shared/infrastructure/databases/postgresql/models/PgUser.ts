@@ -1,7 +1,8 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../sequelize";
+import { PgTransaction } from "./PgTransaction";
 
-interface UserRow {
+export interface UserRow {
   id: number;
   fullName: string;
   email: string;
@@ -10,8 +11,11 @@ interface UserRow {
 
 export class PgUser extends Model<UserRow, Omit<UserRow, "id">> {
   declare id: number;
+  declare fullName: string;
   declare email: string;
   declare password: string;
+  declare createdAt: Date;
+  declare updatedAt: Date;
 }
 
 PgUser.init(
@@ -40,3 +44,16 @@ PgUser.init(
     tableName: "users",
   }
 );
+
+PgUser.hasMany(PgTransaction, {
+  foreignKey: "userId",
+  sourceKey: "id",
+  as: "transactions",
+});
+
+PgTransaction.belongsTo(PgUser, {
+  foreignKey: "userId",
+  targetKey: "id",
+  as: "users",
+});
+

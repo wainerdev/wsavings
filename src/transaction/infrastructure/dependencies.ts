@@ -1,9 +1,9 @@
 import { logger } from "../../shared/infrastructure/dependencies";
 import { TransactionService } from "../application/transaction-service";
-import { PostgresqlTransactionRepository } from "./database/postgresql/adapter/postgresql-transaction-repository";
+import { TransactionRepository } from "./databases/postgresql/adapter/pg-transaction-repository";
 import { TransactionController } from "./rest-api/transaction-controller";
 
-const transactionRepository = new PostgresqlTransactionRepository();
+const transactionRepository = new TransactionRepository();
 const transactionService = new TransactionService(
   transactionRepository,
   logger

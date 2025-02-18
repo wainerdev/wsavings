@@ -1,13 +1,12 @@
-import { emailSender, logger } from "../../shared/infrastructure/dependencies";
-import { WelcomeMessageSender } from "../application/welcome-message-sender";
+import { logger } from "../../shared/infrastructure/dependencies";
+import { UserService } from "../application/user-service";
+import { PgUserRepository } from "./database/postgresql/adapter/pg-user-repository";
 import { UserController } from "./rest-api/user-controller";
-import { InMemoryUserRepository } from "./user-repository/in-memory-user-repository";
 
-const userRepository = new InMemoryUserRepository();
-const welcomeEmailSender = new WelcomeMessageSender(
+const userRepository = new PgUserRepository();
+const userService = new UserService(
   userRepository,
-  emailSender,
   logger
 );
 
-export const userController = new UserController(welcomeEmailSender);
+export const transactionController = new UserController(userService);

@@ -1,10 +1,10 @@
 import { Logger } from "../../shared/domain/logger";
 import { Transaction } from "../domain/transaction";
-import { TransactionRepository } from "../domain/transaction-repository";
+import { ITransactionRepository } from "../domain/transaction-repository";
 
 export class TransactionService {
   constructor(
-    private readonly transactionRepository: TransactionRepository,
+    private readonly transactionRepository: ITransactionRepository,
     private readonly logger: Logger
   ) {}
 
