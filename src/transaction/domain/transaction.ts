@@ -1,5 +1,5 @@
 import { User } from "../../users/domain/user";
-import { TTransactionType } from "./transactionType";
+import type { TransactionType } from "./transactionType";
 
 export class Transaction {
   constructor(
@@ -8,7 +8,7 @@ export class Transaction {
     readonly user: User | null,
     readonly amount: number,
     readonly description: string,
-    readonly type: TTransactionType,
+    readonly type: TransactionType,
     readonly createdAt: Date = new Date(),
     readonly updatedAt: Date = new Date()
   ) {}

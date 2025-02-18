@@ -1,5 +1,5 @@
 import { Transaction } from "../../../domain/transaction";
-import { TTransactionType } from "../../../domain/transactionType";
+import type { TransactionType } from "../../../domain/transactionType";
 
 export class TransactionDtoMapper {
   static toDto(transaction: Transaction): Object {
@@ -27,7 +27,7 @@ export class TransactionDtoMapper {
       null,
       amount,
       description,
-      type as TTransactionType,
+      type as TransactionType,
       createdAt,
       updatedAt
     );

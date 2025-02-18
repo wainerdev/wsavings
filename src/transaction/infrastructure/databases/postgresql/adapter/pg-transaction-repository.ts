@@ -1,10 +1,10 @@
 import { Transaction } from "../../../../domain/transaction";
-import { ITransactionRepository } from "../../../../domain/transaction-repository";
+import { TransactionRepositoryPort } from "../../../../domain/transaction-repository";
 import { PgTransaction } from "../../../../../shared/infrastructure/databases/postgresql/models/PgTransaction";
 import { PgUser } from "../../../../../shared/infrastructure/databases/postgresql/models/PgUser";
 import { TransactionDtaMapper } from "../mappers/transaction-dta";
 
-export class TransactionRepository implements ITransactionRepository {
+export class TransactionRepository implements TransactionRepositoryPort {
   async save(transaction: Transaction): Promise<void> {
     const mappedTransaction = TransactionDtaMapper.toEntity(transaction);
 

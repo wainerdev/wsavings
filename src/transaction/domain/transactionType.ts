@@ -1,1 +1,1 @@
-export type TTransactionType = "INCOME" | "EXPENSE";
+export type TransactionType = "INCOME" | "EXPENSE";
