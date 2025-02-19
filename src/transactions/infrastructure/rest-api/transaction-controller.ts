@@ -1,12 +1,12 @@
-import { TransactionService } from "../../application/transaction-service";
+import { TransactionService } from "@transactions/application/transaction-service";
 import { Request, Response } from "express";
-import { TransactionDtoMapper } from "./mappers/transaction-dto";
+import { TransactionDtoMapper } from "@transactions/infrastructure/rest-api/mappers/transaction-dto";
 
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
   async saveTransaction(req: Request, res: Response) {
-    const today = new Date("2021-01-01");
+    const today = new Date();
     const { id, userId, amount, description, type } = req.body;
 
     const mappedTransaction = TransactionDtoMapper.toDomain(

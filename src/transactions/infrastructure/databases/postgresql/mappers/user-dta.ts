@@ -1,5 +1,5 @@
-import { UserRow, PgUser } from "../../../../../shared/infrastructure/databases/postgresql/models/PgUser";
-import { User } from "../../../../../users/domain/user";
+import { UserRow, PgUser } from "@shared/infrastructure/databases/postgresql/models/PgUser";
+import { User } from "@users/domain/user";
 
 export class UserDtaMapper {
   static toEntity(

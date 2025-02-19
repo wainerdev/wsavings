@@ -1,7 +1,6 @@
-import { TransactionRow, PgTransaction } from "../../../../../shared/infrastructure/databases/postgresql/models/PgTransaction";
-import { Transaction } from "../../../../domain/transaction";
-import { UserDtaMapper } from "./user-dta";
-
+import { TransactionRow, PgTransaction } from "@shared/infrastructure/databases/postgresql/models/PgTransaction";
+import { Transaction } from "@transactions/domain/transaction";
+import { UserDtaMapper } from "@transactions/infrastructure/databases/postgresql/mappers/user-dta";
 
 export class TransactionDtaMapper {
   static toEntity(

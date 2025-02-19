@@ -1,4 +1,4 @@
-import { Transaction } from "./transaction";
+import { Transaction } from '@transactions/domain/transaction';
 
 export interface TransactionRepositoryPort {
     save(transaction: Transaction): Promise<void>;

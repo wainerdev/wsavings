@@ -1,6 +1,6 @@
-import { Logger } from "../../shared/domain/logger";
-import { Transaction } from "../domain/transaction";
-import { TransactionRepositoryPort } from "../domain/transaction-repository";
+import { Logger } from "@shared/domain/logger";
+import { Transaction } from "@transactions/domain/transaction";
+import { TransactionRepositoryPort } from "@transactions/domain/transaction-repository";
 
 export class TransactionService {
   constructor(

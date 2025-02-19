@@ -1,7 +1,12 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./src",
+    "paths": {
+      "@shared/*": ["shared/*"],
+      "@transactions/*": ["transactions/*"],
+      "@users/*": ["users/*"]
+    }
   },
   "exclude": ["node_modules", "tests", "playground"]
 }

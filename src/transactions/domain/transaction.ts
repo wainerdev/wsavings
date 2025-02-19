@@ -1,5 +1,5 @@
-import { User } from "../../users/domain/user";
-import type { TransactionType } from "./transactionType";
+import { User } from "@users/domain/user";
+import type { TransactionType } from "@transactions/domain/transactionType";
 
 export class Transaction {
   constructor(

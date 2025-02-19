@@ -1,4 +1,5 @@
 import "./shared/infrastructure/load-env-vars";
+import 'module-alias/register';
 
 import bodyParser from "body-parser";
 import express from "express";
@@ -7,7 +8,7 @@ import { config } from "./shared/infrastructure/config";
 import { userRouter } from "./users-copy/infrastructure/rest-api/user-router";
 import { userRouter as userRouterV2 } from "./users/infrastructure/rest-api/user-router";
 import { sequelize } from "./shared/infrastructure/databases/postgresql/sequelize";
-import { transactionRouter } from "./transaction/infrastructure/rest-api/transaction-router";
+import { transactionRouter } from "./transactions/infrastructure/rest-api/transaction-router";
 
 
 function bootstrap() {
