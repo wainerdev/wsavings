@@ -18,8 +18,9 @@
   },
   "_moduleAliases": {
 		"@shared": "dist/src/shared",
-		"@transactions": "dist/src/transactions/",
-		"@users": "dist/src/users"
+		"@transactions": "dist/src/transactions",
+		"@users": "dist/src/users",
+    "@categories": "dist/src/categories"
 	},
   "license": "MIT",
   "engines": {

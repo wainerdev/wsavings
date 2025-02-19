@@ -16,7 +16,8 @@
     "paths": {
       "@shared/*": ["shared/*"],
       "@transactions/*": ["transactions/*"],
-      "@users/*": ["users/*"]
+      "@users/*": ["users/*"],
+      "@categories/*": ["categories/*"],
     }
   },
   "include": [

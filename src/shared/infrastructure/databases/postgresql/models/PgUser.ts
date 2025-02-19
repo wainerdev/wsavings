@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
-import { sequelize } from "../sequelize";
+import { sequelize } from "@shared/infrastructure/databases/postgresql/sequelize";
+import { PgCategory } from "@shared/infrastructure/databases/postgresql/models/PgCategory";
 import { PgTransaction } from "./PgTransaction";
 
 export interface UserRow {
@@ -45,15 +46,24 @@ PgUser.init(
   }
 );
 
-PgUser.hasMany(PgTransaction, {
+PgUser.hasOne(PgCategory, {
   foreignKey: "userId",
-  sourceKey: "id",
-  as: "transactions",
+  as: "userCategory",
+  onDelete: "CASCADE",
+});
+
+PgCategory.belongsTo(PgUser, {
+  foreignKey: "userId",
+  as: "users",
+});
+
+PgUser.hasOne(PgTransaction, {
+  foreignKey: "userId",
+  as: "userTransaction",
+  onDelete: "CASCADE",
 });
 
 PgTransaction.belongsTo(PgUser, {
   foreignKey: "userId",
-  targetKey: "id",
   as: "users",
 });
-

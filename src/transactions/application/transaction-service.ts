@@ -1,6 +1,6 @@
 import { Logger } from "@shared/domain/logger";
 import { Transaction } from "@transactions/domain/transaction";
-import { TransactionRepositoryPort } from "@transactions/domain/transaction-repository";
+import { TransactionRepositoryPort } from "@transactions/domain/transaction-repository-port";
 
 export class TransactionService {
   constructor(
@@ -10,12 +10,12 @@ export class TransactionService {
 
   async saveTransaction(transaction: Transaction): Promise<void> {
     this.logger.info(
-      `[Transaction Service] - Saving transaction for user: ${transaction.id} with amount: ${transaction.amount}`
+      `[Transaction Service] - Saving transaction for user: ${transaction.userId} with amount: ${transaction.amount}`
     );
 
-    this.logger.info("[Transaction Service] - Transaction saved successfully");
-
     await this.transactionRepository.save(transaction);
+    
+    this.logger.info("[Transaction Service] - Transaction saved successfully");
   }
 
   async getTransactionsByUserId(userId: string): Promise<Transaction[]> {

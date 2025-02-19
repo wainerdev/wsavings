@@ -1,6 +1,6 @@
 import express from "express";
 
-import { transactionController } from "../dependencies";
+import { transactionController } from "@transactions/infrastructure/dependencies";
 
 const transactionRouter = express.Router();
 

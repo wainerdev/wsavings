@@ -5,7 +5,8 @@
     "paths": {
       "@shared/*": ["shared/*"],
       "@transactions/*": ["transactions/*"],
-      "@users/*": ["users/*"]
+      "@users/*": ["users/*"],
+      "@categories/*": ["categories/*"]
     }
   },
   "exclude": ["node_modules", "tests", "playground"]

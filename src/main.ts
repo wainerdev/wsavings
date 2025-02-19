@@ -4,11 +4,11 @@ import 'module-alias/register';
 import bodyParser from "body-parser";
 import express from "express";
 
-import { config } from "./shared/infrastructure/config";
-import { userRouter } from "./users-copy/infrastructure/rest-api/user-router";
-import { userRouter as userRouterV2 } from "./users/infrastructure/rest-api/user-router";
-import { sequelize } from "./shared/infrastructure/databases/postgresql/sequelize";
-import { transactionRouter } from "./transactions/infrastructure/rest-api/transaction-router";
+import { config } from "@shared/infrastructure/config";
+import { userRouter } from "@users/infrastructure/rest-api/user-router";
+import { sequelize } from "@shared/infrastructure/databases/postgresql/sequelize";
+import { transactionRouter } from "@transactions/infrastructure/rest-api/transaction-router";
+import { categoryRouter } from "@categories/infrastructure/rest-api/category-router";
 
 
 function bootstrap() {
@@ -16,8 +16,8 @@ function bootstrap() {
 
   app.use(bodyParser.json());
   app.use("/users", userRouter);
-  app.use("/v2/users", userRouterV2);
   app.use("/transactions", transactionRouter);
+  app.use("/categories", categoryRouter);
 
   const { port } = config.server;
 

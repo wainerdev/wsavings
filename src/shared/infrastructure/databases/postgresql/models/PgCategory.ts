@@ -2,31 +2,29 @@ import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../sequelize";
 import { PgUser } from "./PgUser";
 
-export interface TransactionRow {
+export interface CategoryRow {
   id: number;
-  amount: number;
-  description: string;
+  title: string;
   userId: number;
-  type: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export class PgTransaction extends Model<
-  TransactionRow,
-  Omit<TransactionRow, "id" | "createdAt" | "updatedAt">
+export type CategoryEntity = Omit<CategoryRow, "id" | "createdAt" | "updatedAt">
+
+export class PgCategory extends Model<
+  CategoryRow,
+  CategoryEntity
 > {
   declare id: number;
-  declare amount: number;
-  declare description: string;
+  declare title: string;
   declare userId: number;
   declare users: PgUser;
-  declare type: string;
   declare createdAt: Date;
   declare updatedAt: Date;
 }
 
-PgTransaction.init(
+PgCategory.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -37,17 +35,9 @@ PgTransaction.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    description: {
+    title: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    amount: {
-      type: DataTypes.FLOAT,
-      allowNull: false,
-    },
-    type: {
-      type: DataTypes.ENUM,
-      values: ["I", "E"], // I = Income, E = Expense
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -55,12 +45,14 @@ PgTransaction.init(
     },
     updatedAt: {
       type: DataTypes.DATE,
-      allowNull: false,
-    },
+      allowNull: false
+    }
   },
   {
     sequelize,
     timestamps: true,
-    tableName: "transactions",
+    tableName: "categories",
   }
 );
+
+
