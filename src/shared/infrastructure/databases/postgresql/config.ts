@@ -10,6 +10,7 @@ export const development: Options = {
   dialectOptions: {
     ssl: {
       require: true,
+      rejectUnauthorized: false,
     },
   },
 };
