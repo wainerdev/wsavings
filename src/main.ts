@@ -7,9 +7,10 @@ import { sequelize } from "@shared/infrastructure/databases/postgresql/sequelize
 import { transactionRouter } from "@transactions/infrastructure/rest-api/transaction-router";
 import { userRouter } from "@users/infrastructure/rest-api/user-router";
 import bodyParser from "body-parser";
+import cors from "cors";
 import express from "express";
 
-function bootstrap() {
+async function bootstrap() {
   const app = express();
 
   app.use(bodyParser.json());
@@ -19,6 +20,7 @@ function bootstrap() {
 
   const { port } = config.server;
 
+  app.use(cors());
   app.listen(port, () => {
     sequelize
       .sync({
