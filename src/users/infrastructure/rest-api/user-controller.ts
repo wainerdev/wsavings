@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+
 import { UserService } from "../../application/user-service";
 import { UserDtoMapper } from "../mapper/UserDtoMapper";
 
@@ -26,9 +27,7 @@ export class UserController {
   async findByUserId(req: Request, res: Response) {
     const { userId } = req.params;
 
-    const transactions = await this.userService.findByUserId(
-      userId
-    );
+    const transactions = await this.userService.findByUserId(userId);
 
     res.status(200).send(transactions);
   }

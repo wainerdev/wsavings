@@ -1,15 +1,13 @@
 import "./shared/infrastructure/load-env-vars";
-import 'module-alias/register';
+import "module-alias/register";
 
-import bodyParser from "body-parser";
-import express from "express";
-
+import { categoryRouter } from "@categories/infrastructure/rest-api/category-router";
 import { config } from "@shared/infrastructure/config";
-import { userRouter } from "@users/infrastructure/rest-api/user-router";
 import { sequelize } from "@shared/infrastructure/databases/postgresql/sequelize";
 import { transactionRouter } from "@transactions/infrastructure/rest-api/transaction-router";
-import { categoryRouter } from "@categories/infrastructure/rest-api/category-router";
-
+import { userRouter } from "@users/infrastructure/rest-api/user-router";
+import bodyParser from "body-parser";
+import express from "express";
 
 function bootstrap() {
   const app = express();
@@ -23,8 +21,8 @@ function bootstrap() {
 
   app.listen(port, () => {
     sequelize
-      .sync({ 
-        // force: true 
+      .sync({
+        // force: true
       })
       .then(() => {
         console.log(`[APP] - Starting application on port ${port}`);

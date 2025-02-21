@@ -1,6 +1,7 @@
-import { DataTypes, Model } from "sequelize";
-import { sequelize } from "@shared/infrastructure/databases/postgresql/sequelize";
 import { PgCategory } from "@shared/infrastructure/databases/postgresql/models/PgCategory";
+import { sequelize } from "@shared/infrastructure/databases/postgresql/sequelize";
+import { DataTypes, Model } from "sequelize";
+
 import { PgTransaction } from "./PgTransaction";
 
 export interface UserRow {

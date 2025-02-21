@@ -1,4 +1,5 @@
 import { DataTypes, Model } from "sequelize";
+
 import { sequelize } from "../sequelize";
 import { PgUser } from "./PgUser";
 
@@ -10,12 +11,12 @@ export interface CategoryRow {
   updatedAt: Date;
 }
 
-export type CategoryEntity = Omit<CategoryRow, "id" | "createdAt" | "updatedAt">
-
-export class PgCategory extends Model<
+export type CategoryEntity = Omit<
   CategoryRow,
-  CategoryEntity
-> {
+  "id" | "createdAt" | "updatedAt"
+>;
+
+export class PgCategory extends Model<CategoryRow, CategoryEntity> {
   declare id: number;
   declare title: string;
   declare userId: number;
@@ -45,8 +46,8 @@ PgCategory.init(
     },
     updatedAt: {
       type: DataTypes.DATE,
-      allowNull: false
-    }
+      allowNull: false,
+    },
   },
   {
     sequelize,
@@ -54,5 +55,3 @@ PgCategory.init(
     tableName: "categories",
   }
 );
-
-

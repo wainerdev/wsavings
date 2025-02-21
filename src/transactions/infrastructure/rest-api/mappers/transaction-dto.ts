@@ -2,14 +2,14 @@ import { Transaction } from "@transactions/domain/transaction";
 import type { TransactionType } from "@transactions/domain/transactionType";
 
 export class TransactionDtoMapper {
-  static toDto(transaction: Transaction): Object {
+  static toDto(transaction: Transaction): unknown {
     return {
       id: transaction.id,
       userId: transaction.userId,
       amount: transaction.amount,
       description: transaction.description,
       type: transaction.type,
-      user: transaction.user
+      user: transaction.user,
     };
   }
   static toDomain(

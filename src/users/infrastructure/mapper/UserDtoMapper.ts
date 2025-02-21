@@ -8,7 +8,7 @@ export class UserDtoMapper {
       email: user.email,
       password: user.password,
       createdAt: user.createdAt,
-      updatedAt: user.updatedAt
+      updatedAt: user.updatedAt,
     };
   }
   static toDomain(

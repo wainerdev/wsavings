@@ -1,11 +1,12 @@
-import { TransactionRow, PgTransaction } from "@shared/infrastructure/databases/postgresql/models/PgTransaction";
+import {
+  PgTransaction,
+  TransactionRow,
+} from "@shared/infrastructure/databases/postgresql/models/PgTransaction";
 import { Transaction } from "@transactions/domain/transaction";
 import { UserDtaMapper } from "@transactions/infrastructure/databases/postgresql/mappers/user-dta";
 
 export class TransactionDtaMapper {
-  static toEntity(
-    transaction: Transaction
-  ): TransactionRow{
+  static toEntity(transaction: Transaction): TransactionRow {
     return {
       id: transaction.id,
       userId: transaction.userId as number,
@@ -13,9 +14,8 @@ export class TransactionDtaMapper {
       description: transaction.description,
       type: transaction.type,
       createdAt: transaction.createdAt,
-      updatedAt: transaction.updatedAt
+      updatedAt: transaction.updatedAt,
     };
-    
   }
 
   static toDomain(transaction: PgTransaction): Transaction {
@@ -25,7 +25,7 @@ export class TransactionDtaMapper {
       UserDtaMapper.toDomain(transaction.users),
       transaction.amount,
       transaction.description,
-      transaction.type === 'I' ? 'INCOME' : 'EXPENSE',
+      transaction.type === "I" ? "INCOME" : "EXPENSE",
       transaction.createdAt,
       transaction.updatedAt
     );

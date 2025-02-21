@@ -23,12 +23,12 @@ export class CategoryService {
       `[Category Service-finddddd] - Getting categories for user: ${userId}`
     );
 
-    const categories =  await this.categoryRepository.findByUserId(userId);
+    const categories = await this.categoryRepository.findByUserId(userId);
 
     this.logger.info(
       `[Category Service] - Found ${categories.length} categories for user: ${userId}`
     );
 
-    return categories
+    return categories;
   }
 }

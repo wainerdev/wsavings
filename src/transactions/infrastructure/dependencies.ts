@@ -9,4 +9,6 @@ const transactionService = new TransactionService(
   logger
 );
 
-export const transactionController = new TransactionController(transactionService);
+export const transactionController = new TransactionController(
+  transactionService
+);

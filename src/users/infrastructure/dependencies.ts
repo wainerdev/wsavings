@@ -4,9 +4,6 @@ import { PgUserRepository } from "./database/postgresql/adapter/pg-user-reposito
 import { UserController } from "./rest-api/user-controller";
 
 const userRepository = new PgUserRepository();
-const userService = new UserService(
-  userRepository,
-  logger
-);
+const userService = new UserService(userRepository, logger);
 
 export const transactionController = new UserController(userService);

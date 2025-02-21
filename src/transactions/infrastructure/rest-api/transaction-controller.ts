@@ -1,6 +1,6 @@
 import { TransactionService } from "@transactions/application/transaction-service";
-import { Request, Response } from "express";
 import { TransactionDtoMapper } from "@transactions/infrastructure/rest-api/mappers/transaction-dto";
+import { Request, Response } from "express";
 
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}

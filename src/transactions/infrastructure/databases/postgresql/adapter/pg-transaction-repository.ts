@@ -1,7 +1,7 @@
-import { Transaction } from "@transactions/domain/transaction";
-import { TransactionRepositoryPort } from "@transactions/domain/transaction-repository-port";
 import { PgTransaction } from "@shared/infrastructure/databases/postgresql/models/PgTransaction";
 import { PgUser } from "@shared/infrastructure/databases/postgresql/models/PgUser";
+import { Transaction } from "@transactions/domain/transaction";
+import { TransactionRepositoryPort } from "@transactions/domain/transaction-repository-port";
 import { TransactionDtaMapper } from "@transactions/infrastructure/databases/postgresql/mappers/transaction-dta";
 
 export class TransactionRepository implements TransactionRepositoryPort {
