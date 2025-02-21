@@ -13,6 +13,7 @@ import express from "express";
 async function bootstrap() {
   const app = express();
 
+  app.use(cors());
   app.use(bodyParser.json());
   app.use("/users", userRouter);
   app.use("/transactions", transactionRouter);
@@ -20,7 +21,6 @@ async function bootstrap() {
 
   const { port } = config.server;
 
-  app.use(cors());
   app.listen(port, () => {
     sequelize
       .sync({
