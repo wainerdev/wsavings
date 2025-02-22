@@ -1,6 +1,6 @@
 import { Logger } from "../../shared/domain/logger";
 import { User } from "../domain/user";
-import { UserRepository } from "../domain/user-repository";
+import { UserRepository } from "../domain/user-repository-port";
 
 export class UserService {
   constructor(
@@ -8,27 +8,23 @@ export class UserService {
     private readonly logger: Logger
   ) {}
 
-  async save(user: User): Promise<void> {
+  async singIn(user: User): Promise<void> {
     this.logger.info(
-      `[User Service] - Saving transaction for user: ${user.id}.`
+      `[User Service] - User ${user.email} is trying to sign in.`
     );
 
-    await this.userRepository.save(user);
+    await this.userRepository.singIn(user);
 
-    this.logger.info("[User Service] - Transaction saved successfully");
+    this.logger.info("[User Service] - User signed in successfully");
   }
 
-  async findByUserId(userId: string): Promise<User[]> {
+  async singUp(user: User): Promise<void> {
     this.logger.info(
-      `[User Service] - Getting transactions for user: ${userId}`
+      `[User Service] - User ${user.email} is trying to sign up.`
     );
 
-    const users = await this.userRepository.findByUserId(userId);
+    await this.userRepository.singUp(user);
 
-    this.logger.info(
-      `[User Service] - Found ${users.length} transactions for user: ${userId}`
-    );
-
-    return users;
+    this.logger.info("[User Service] - User signed up successfully");
   }
 }

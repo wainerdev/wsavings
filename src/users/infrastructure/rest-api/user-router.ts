@@ -1,16 +1,15 @@
+import { transactionController } from "@users/infrastructure/dependencies";
 import express from "express";
-
-import { transactionController } from "../dependencies";
 
 const userRouter = express.Router();
 
 userRouter.post(
-  "/",
-  transactionController.saveTransaction.bind(transactionController)
+  "/sing-in",
+  transactionController.singIn.bind(transactionController)
 );
 userRouter.get(
-  "/:userId",
-  transactionController.findByUserId.bind(transactionController)
+  "/sing-up",
+  transactionController.singUp.bind(transactionController)
 );
 
 export { userRouter };

@@ -5,14 +5,13 @@ import {
 import { User } from "@users/domain/user";
 
 export class UserDtaMapper {
-  static toEntity(user: User): UserEntity {
+  static toDto(user: User): UserEntity {
     return {
+      fullName: user.fullName,
       email: user.email,
       password: user.password,
-      fullName: user.fullName,
     };
   }
-
   static toDomain(user: PgUser): User {
     return new User(
       user.id,

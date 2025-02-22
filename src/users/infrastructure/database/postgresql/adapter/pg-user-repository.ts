@@ -1,32 +1,24 @@
-import { PgUser } from "../../../../../shared/infrastructure/databases/postgresql/models/PgUser";
-import { User } from "../../../../domain/user";
-import { UserRepository } from "../../../../domain/user-repository";
-import { UserDtoMapper } from "../../../mapper/UserDtoMapper";
+import { PgUser } from "@shared/infrastructure/databases/postgresql/models/PgUser";
+import { User } from "@users/domain/user";
+import { UserRepository } from "@users/domain/user-repository-port";
+import { UserDtaMapper } from "@users/infrastructure/mapper/user-dta";
 
 export class PgUserRepository implements UserRepository {
-  async save(user: User): Promise<void> {
-    const mappedTransaction = UserDtoMapper.toDto(user);
+  async singUp(user: User): Promise<void> {
+    const mappedUser = UserDtaMapper.toDto(user);
 
-    await PgUser.create({
-      email: mappedTransaction.email,
-      password: mappedTransaction.password,
-      fullName: mappedTransaction.fullName,
-    });
+    await PgUser.create(mappedUser);
   }
 
-  async findByUserId(userId: string): Promise<User[]> {
-    const users = await PgUser.findAll({ where: { id: userId } });
-    console.log("users", users);
-
-    return users.map((user) => {
-      return UserDtoMapper.toDomain(
-        user.id,
-        user.email,
-        user.fullName,
-        user.password,
-        user.createdAt,
-        user.updatedAt
-      );
+  async singIn(user: User): Promise<User | null> {
+    const userFound = await PgUser.findOne({
+      where: { email: user.email, password: user.password },
     });
+
+    if (!userFound) {
+      return null;
+    }
+
+    return UserDtaMapper.toDomain(userFound);
   }
 }

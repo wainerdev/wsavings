@@ -9,11 +9,12 @@ export interface CategoryRow {
   userId: number;
   createdAt: Date;
   updatedAt: Date;
+  isDeleted: boolean;
 }
 
 export type CategoryEntity = Omit<
   CategoryRow,
-  "id" | "createdAt" | "updatedAt"
+  "id" | "createdAt" | "updatedAt" | "isDeleted"
 >;
 
 export class PgCategory extends Model<CategoryRow, CategoryEntity> {
@@ -23,6 +24,7 @@ export class PgCategory extends Model<CategoryRow, CategoryEntity> {
   declare users: PgUser;
   declare createdAt: Date;
   declare updatedAt: Date;
+  declare isDeleted: boolean;
 }
 
 PgCategory.init(
@@ -39,6 +41,10 @@ PgCategory.init(
     title: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    isDeleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
     createdAt: {
       type: DataTypes.DATE,

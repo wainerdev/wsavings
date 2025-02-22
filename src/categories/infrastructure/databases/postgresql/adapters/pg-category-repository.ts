@@ -14,9 +14,9 @@ export class CategoryRepository implements CategoryRepositoryPort {
     await PgCategory.create(mappedCategory);
   }
 
-  async findByUserId(userId: string): Promise<Category[]> {
+  async findByUserId(userId: number): Promise<Category[]> {
     const categories = await PgCategory.findAll({
-      where: { userId },
+      where: { userId, isDeleted: false },
       include: {
         model: PgUser,
         as: "users",
@@ -24,5 +24,33 @@ export class CategoryRepository implements CategoryRepositoryPort {
     });
 
     return categories.map(CategoryDtaMapper.toDomain);
+  }
+
+  async deleteCategoryById(categoryId: number): Promise<void> {
+    await PgCategory.update(
+      { isDeleted: true },
+      {
+        where: { id: categoryId },
+      }
+    );
+  }
+
+  async findByUserIdAndCategoryId(
+    userId: number,
+    categoryId: number
+  ): Promise<Category | null> {
+    const category = await PgCategory.findOne({
+      where: { userId, id: categoryId, isDeleted: false },
+      include: {
+        model: PgUser,
+        as: "users",
+      },
+    });
+
+    if (!category) {
+      return null;
+    }
+
+    return CategoryDtaMapper.toDomain(category);
   }
 }

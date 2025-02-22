@@ -1,12 +1,28 @@
+import { UserService } from "@users/application/user-service";
+import { UserDtoMapper } from "@users/infrastructure/rest-api/mapper/user-dto";
 import { Request, Response } from "express";
-
-import { UserService } from "../../application/user-service";
-import { UserDtoMapper } from "../mapper/UserDtoMapper";
-
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  async saveTransaction(req: Request, res: Response) {
+  async singIn(req: Request, res: Response) {
+    const today = new Date();
+    const { email, password } = req.body;
+
+    const mappedTransaction = UserDtoMapper.toDomain(
+      0, // id - not needed for sign in
+      email,
+      "", // fullName - not needed for sign in
+      password,
+      today, // createdAt
+      today // updatedAt
+    );
+
+    await this.userService.singIn(mappedTransaction);
+
+    res.status(200).send();
+  }
+
+  async singUp(req: Request, res: Response) {
     const today = new Date();
     const { id, fullName, email, password } = req.body;
 
@@ -19,16 +35,8 @@ export class UserController {
       today // updatedAt
     );
 
-    await this.userService.save(mappedTransaction);
+    await this.userService.singIn(mappedTransaction);
 
     res.status(200).send();
-  }
-
-  async findByUserId(req: Request, res: Response) {
-    const { userId } = req.params;
-
-    const transactions = await this.userService.findByUserId(userId);
-
-    res.status(200).send(transactions);
   }
 }

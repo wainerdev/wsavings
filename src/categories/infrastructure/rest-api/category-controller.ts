@@ -23,12 +23,32 @@ export class CategoryController {
   }
 
   async getCategoryByUserId(req: Request, res: Response) {
-    const { userId } = req.params;
+    const userId = 1;
 
-    const categories = await this.categoryService.findByUserId(userId);
+    const categories = await this.categoryService.findByUserId(Number(userId));
 
     const mappedCategories = categories.map(CategoryDtoMapper.toDto);
 
     res.status(200).send(mappedCategories);
+  }
+
+  async deleteCategoryByUserId(req: Request, res: Response) {
+    const { categoryId } = req.params;
+
+    await this.categoryService.deleteCategoryById(Number(categoryId));
+
+    res.status(200).send();
+  }
+
+  async getCategoryByUserIdAndCategoryId(req: Request, res: Response) {
+    const { categoryId } = req.params;
+    const userId = 1;
+
+    const category = await this.categoryService.findByUserIdAndCategoryId(
+      userId,
+      Number(categoryId)
+    );
+
+    res.status(200).send(category);
   }
 }

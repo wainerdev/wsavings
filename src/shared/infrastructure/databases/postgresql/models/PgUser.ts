@@ -9,15 +9,24 @@ export interface UserRow {
   fullName: string;
   email: string;
   password: string;
+  isDeleted: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export class PgUser extends Model<UserRow, Omit<UserRow, "id">> {
+export type UserEntity = Omit<
+  UserRow,
+  "id" | "createdAt" | "updatedAt" | "isDeleted"
+>;
+
+export class PgUser extends Model<UserRow, UserEntity> {
   declare id: number;
   declare fullName: string;
   declare email: string;
   declare password: string;
   declare createdAt: Date;
   declare updatedAt: Date;
+  declare isDeleted: boolean;
 }
 
 PgUser.init(
@@ -35,8 +44,20 @@ PgUser.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    isDeleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
     password: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
       allowNull: false,
     },
   },
