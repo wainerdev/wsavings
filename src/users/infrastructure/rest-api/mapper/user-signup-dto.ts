@@ -1,6 +1,6 @@
 import { User } from "@users/domain/user";
 
-export class UserDtoMapper {
+export class UserSignUpDtoMapper {
   static toDto(user: User): unknown {
     return {
       id: user.id,
@@ -11,14 +11,14 @@ export class UserDtoMapper {
       updatedAt: user.updatedAt,
     };
   }
-  static toDomain(
-    id: number,
-    email: string,
-    fullName: string,
-    password: string,
-    createdAt: Date,
-    updatedAt: Date
-  ): User {
-    return new User(id, email, fullName, password, createdAt, updatedAt);
+  static toDomain(email: string, fullName: string, password: string): User {
+    return new User(
+      null as unknown as number,
+      email,
+      fullName,
+      password,
+      null as unknown as Date,
+      null as unknown as Date
+    );
   }
 }

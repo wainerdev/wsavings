@@ -13,23 +13,20 @@ export class TransactionDtoMapper {
     };
   }
   static toDomain(
-    id: number,
     userId: number,
     amount: number,
     description: string,
-    type: string,
-    createdAt: Date,
-    updatedAt: Date
+    type: string
   ): Transaction {
     return new Transaction(
-      id,
+      null as unknown as number,
       userId,
       null,
       amount,
       description,
       type as TransactionType,
-      createdAt,
-      updatedAt
+      null as unknown as Date,
+      null as unknown as Date
     );
   }
 }

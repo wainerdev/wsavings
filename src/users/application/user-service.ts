@@ -1,10 +1,10 @@
 import { Logger } from "../../shared/domain/logger";
 import { User } from "../domain/user";
-import { UserRepository } from "../domain/user-repository-port";
+import { UserRepositoryPort } from "../domain/user-repository-port";
 
 export class UserService {
   constructor(
-    private readonly userRepository: UserRepository,
+    private readonly userRepository: UserRepositoryPort,
     private readonly logger: Logger
   ) {}
 

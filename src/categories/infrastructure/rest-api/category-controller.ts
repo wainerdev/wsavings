@@ -6,16 +6,9 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   async save(req: Request, res: Response) {
-    const today = new Date();
-    const { id, userId, title } = req.body;
+    const { userId, title } = req.body;
 
-    const mappedCategory = CategoryDtoMapper.toDomain(
-      id,
-      userId,
-      title,
-      today,
-      today
-    );
+    const mappedCategory = CategoryDtoMapper.toDomain(userId, title);
 
     await this.categoryService.save(mappedCategory);
 
@@ -49,6 +42,8 @@ export class CategoryController {
       Number(categoryId)
     );
 
-    res.status(200).send(category);
+    const mappedCategory = category && CategoryDtoMapper.toDto(category);
+
+    res.status(200).send(mappedCategory);
   }
 }

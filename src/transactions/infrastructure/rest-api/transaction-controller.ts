@@ -6,17 +6,13 @@ export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
   async saveTransaction(req: Request, res: Response) {
-    const today = new Date();
-    const { id, userId, amount, description, type } = req.body;
+    const { userId, amount, description, type } = req.body;
 
     const mappedTransaction = TransactionDtoMapper.toDomain(
-      id,
       userId,
       amount,
       description,
-      type,
-      today,
-      today
+      type
     );
 
     await this.transactionService.saveTransaction(mappedTransaction);
@@ -46,6 +42,8 @@ export class TransactionController {
         endDate
       );
 
-    res.status(200).send(transactions);
+    const mappedTransactions = transactions.map(TransactionDtoMapper.toDto);
+
+    res.status(200).send(mappedTransactions);
   }
 }

@@ -11,13 +11,14 @@ export class CategoryDtoMapper {
       updatedAt: category.updatedAt,
     };
   }
-  static toDomain(
-    id: number,
-    userId: number,
-    title: string,
-    createdAt: Date,
-    updatedAt: Date
-  ): Category {
-    return new Category(id, title, userId, null, createdAt, updatedAt);
+  static toDomain(userId: number, title: string): Category {
+    return new Category(
+      null as unknown as number,
+      title,
+      userId,
+      null,
+      null as unknown as Date,
+      null as unknown as Date
+    );
   }
 }
