@@ -7,7 +7,7 @@ const categoryRepository = new CategoryRepository();
 const categoryService = new CategoryService(
   categoryRepository,
   logger,
-  "[CategoryService]"
+  "[Category Service]"
 );
 
 export const categoryController = new CategoryController(categoryService);

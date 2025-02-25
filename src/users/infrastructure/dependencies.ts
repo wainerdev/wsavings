@@ -5,8 +5,8 @@ import { PgUserRepository } from "@users/infrastructure/database/postgresql/adap
 import { UserController } from "@users/infrastructure/rest-api/user-controller";
 
 const userRepository = new PgUserRepository();
-const userService = new UserService(userRepository, logger);
 const ecryptService = new EcryptService();
+const userService = new UserService(userRepository, logger, "[User Service]");
 
 export const transactionController = new UserController(
   userService,
