@@ -2,8 +2,6 @@ import { Logger } from "@shared/domain/logger";
 import { User } from "@users/domain/user";
 import { UserRepositoryPort } from "@users/domain/user-repository-port";
 
-const SERVICE_NAME = "[User Service]";
-
 export class UserService {
   constructor(
     private readonly userRepository: UserRepositoryPort,
