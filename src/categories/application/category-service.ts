@@ -5,68 +5,80 @@ import { Logger } from "@shared/domain/logger";
 export class CategoryService {
   constructor(
     private readonly categoryRepository: CategoryRepositoryPort,
-    private readonly logger: Logger
+    private readonly logger: Logger,
+    private readonly serviceName: string
   ) {}
 
-  async save(category: Category): Promise<void> {
+  async create(category: Category): Promise<Category> {
     this.logger.info(
-      `[Category Service222] - Saving category for user: ${category.userId}`
+      `${this.serviceName} Saving category with userId:${category.userId}`
     );
 
-    await this.categoryRepository.save(category);
+    const savedCategory = await this.categoryRepository.create(category);
 
-    this.logger.info("[Category Service] - Category saved successfully");
+    this.logger.info(
+      `${this.serviceName} Category with userId:${category.userId} saved successfully`
+    );
+
+    return savedCategory;
   }
 
   async findByUserId(userId: number): Promise<Category[]> {
     this.logger.info(
-      `[Category Service-finddddd] - Getting categories for user: ${userId}`
+      `${this.serviceName} Getting categories for user: ${userId}`
     );
 
     const categories = await this.categoryRepository.findByUserId(userId);
 
     this.logger.info(
-      `[Category Service] - Found ${categories.length} categories for user: ${userId}`
+      `${this.serviceName} Categories for user: ${userId} found: ${categories.length}`
     );
 
     return categories;
   }
 
-  async deleteCategoryById(categoryId: number): Promise<void> {
+  async deleteCategoryById(
+    categoryId: number
+  ): Promise<[affectedCount: number]> {
     this.logger.info(
-      `[Category Service] - Deleting category by ID: ${categoryId}`
+      `${this.serviceName} Deleting category with ID: ${categoryId}`
     );
 
-    await this.categoryRepository.deleteCategoryById(categoryId);
+    const deletedCategory = await this.categoryRepository.deleteCategoryById(
+      categoryId
+    );
 
     this.logger.info(
-      `[Category Service] - Category with ID: ${categoryId} deleted successfully`
+      `${this.serviceName} Category with ID: ${categoryId} deleted successfully`
     );
+
+    return deletedCategory;
   }
 
-  async findByUserIdAndCategoryId(
+  async findByIdAndCategoryId(
     userId: number,
     categoryId: number
   ): Promise<Category | null> {
     this.logger.info(
-      `[Category Service] - Getting category by ID: ${categoryId} for user: ${userId}`
+      `${this.serviceName} Getting category with ID: ${categoryId} for user: ${userId}`
     );
 
-    const category = await this.categoryRepository.findByUserIdAndCategoryId(
+    const foundCategory = await this.categoryRepository.findByIdAndCategoryId(
       userId,
       categoryId
     );
 
-    if (!category) {
+    if (!foundCategory) {
       this.logger.info(
-        `[Category Service] - Category with ID: ${categoryId} not found for user: ${userId}`
+        `${this.serviceName} Category with ID: ${categoryId} for user: ${userId} not found`
       );
-    } else {
-      this.logger.info(
-        `[Category Service] - Found category with ID: ${categoryId} for user: ${userId}`
-      );
+
+      return null;
     }
 
-    return category;
+    this.logger.info(
+      `${this.serviceName} Category with ID: ${categoryId} for user: ${userId} found`
+    );
+    return foundCategory;
   }
 }

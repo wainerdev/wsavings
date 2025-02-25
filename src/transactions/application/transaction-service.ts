@@ -5,28 +5,35 @@ import { TransactionRepositoryPort } from "@transactions/domain/transaction-repo
 export class TransactionService {
   constructor(
     private readonly transactionRepository: TransactionRepositoryPort,
-    private readonly logger: Logger
+    private readonly logger: Logger,
+    private readonly serviceName: string
   ) {}
 
-  async saveTransaction(transaction: Transaction): Promise<void> {
+  async create(transaction: Transaction): Promise<Transaction> {
     this.logger.info(
-      `[Transaction Service] - Saving transaction for user: ${transaction.userId} with amount: ${transaction.amount}`
+      `[${this.serviceName}] - Creating transaction for user: ${transaction.userId}`
     );
 
-    await this.transactionRepository.save(transaction);
+    const createdTransaction = await this.transactionRepository.create(
+      transaction
+    );
 
-    this.logger.info("[Transaction Service] - Transaction saved successfully");
+    this.logger.info(
+      `[${this.serviceName}] - Created transaction with id: ${createdTransaction.id}`
+    );
+
+    return transaction;
   }
 
   async getTransactionsByUserId(userId: string): Promise<Transaction[]> {
     this.logger.info(
-      `[Transaction Service] - Getting transactions for user: ${userId}`
+      `${this.serviceName} - Getting transactions for user: ${userId}`
     );
 
     const transactions = await this.transactionRepository.findByUserId(userId);
 
     this.logger.info(
-      `[Transaction Service] - Found ${transactions.length} transactions for user: ${userId}`
+      `${this.serviceName} - Found ${transactions.length} transactions for user: ${userId}`
     );
 
     return transactions;
@@ -38,7 +45,7 @@ export class TransactionService {
     endDate: Date
   ): Promise<Transaction[]> {
     this.logger.info(
-      `[Transaction Service] - Getting transactions for user: ${userId} between dates: ${startDate} and ${endDate}`
+      `[${this.serviceName}] - Getting transactions for user: ${userId} between dates: ${startDate} and ${endDate}`
     );
 
     const transactions = await this.transactionRepository.findByDateRange(
@@ -48,7 +55,8 @@ export class TransactionService {
     );
 
     this.logger.info(
-      `[Transaction Service] - Found ${transactions.length} transactions for user: ${userId} between dates: ${startDate} and ${endDate}`
+      `[${this.serviceName}] - Found ${transactions.length} transactions for user
+      ${userId} between dates: ${startDate} and ${endDate}`
     );
 
     return transactions;

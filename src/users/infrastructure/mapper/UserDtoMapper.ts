@@ -1,4 +1,4 @@
-import { User } from "../../domain/user";
+import { User } from "@users/domain/user";
 
 export class UserDtoMapper {
   static toDto(user: User) {

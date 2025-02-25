@@ -5,7 +5,7 @@ const transactionRouter = express.Router();
 
 transactionRouter.post(
   "/",
-  transactionController.saveTransaction.bind(transactionController)
+  transactionController.create.bind(transactionController)
 );
 transactionRouter.get(
   "/:userId",

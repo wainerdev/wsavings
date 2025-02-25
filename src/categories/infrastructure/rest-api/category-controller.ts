@@ -5,45 +5,49 @@ import { Request, Response } from "express";
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
-  async save(req: Request, res: Response) {
+  async create(req: Request, res: Response) {
     const { userId, title } = req.body;
 
-    const mappedCategory = CategoryDtoMapper.toDomain(userId, title);
+    const domainCategory = CategoryDtoMapper.toDomain(userId, title);
 
-    await this.categoryService.save(mappedCategory);
+    const createdCategory = await this.categoryService.create(domainCategory);
 
-    res.status(200).send();
+    const dtoCategory = CategoryDtoMapper.toDto(createdCategory);
+
+    return res.status(200).send(dtoCategory);
   }
 
-  async getCategoryByUserId(req: Request, res: Response) {
+  async getCategoryByUserId(_: Request, res: Response) {
     const userId = 1;
 
     const categories = await this.categoryService.findByUserId(Number(userId));
 
-    const mappedCategories = categories.map(CategoryDtoMapper.toDto);
+    const dtoCategories = categories.map(CategoryDtoMapper.toDto);
 
-    res.status(200).send(mappedCategories);
+    return res.status(200).send(dtoCategories);
   }
 
   async deleteCategoryByUserId(req: Request, res: Response) {
     const { categoryId } = req.params;
 
-    await this.categoryService.deleteCategoryById(Number(categoryId));
+    const [affectedCount] = await this.categoryService.deleteCategoryById(
+      Number(categoryId)
+    );
 
-    res.status(200).send();
+    return res.status(200).send({ affectedCount });
   }
 
   async getCategoryByUserIdAndCategoryId(req: Request, res: Response) {
-    const { categoryId } = req.params;
     const userId = 1;
+    const { categoryId } = req.params;
 
-    const category = await this.categoryService.findByUserIdAndCategoryId(
+    const category = await this.categoryService.findByIdAndCategoryId(
       userId,
       Number(categoryId)
     );
 
-    const mappedCategory = category && CategoryDtoMapper.toDto(category);
+    const dtoCategory = category && CategoryDtoMapper.toDto(category);
 
-    res.status(200).send(mappedCategory);
+    return res.status(200).send(dtoCategory);
   }
 }

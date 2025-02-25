@@ -1,9 +1,8 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+import { config } from "@shared/infrastructure/config";
 import { Options } from "sequelize";
-
-import { config } from "../../config";
 
 export const development: Options = {
   ...config.database,

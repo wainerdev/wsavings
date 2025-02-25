@@ -3,7 +3,7 @@ import express from "express";
 
 const categoryRouter = express.Router();
 
-categoryRouter.post("/", categoryController.save.bind(categoryController));
+categoryRouter.post("/", categoryController.create.bind(categoryController));
 categoryRouter.get(
   "/",
   categoryController.getCategoryByUserId.bind(categoryController)

@@ -14,7 +14,6 @@ export class CategoryDtaMapper {
   }
 
   static toDomain(category: PgCategory): Category {
-    console.log("category.users 😀", category.users);
     return new Category(
       category.id,
       category.title,

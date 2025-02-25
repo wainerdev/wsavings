@@ -1,7 +1,7 @@
 import { Transaction } from "@transactions/domain/transaction";
 
 export interface TransactionRepositoryPort {
-  save(transaction: Transaction): Promise<void>;
+  create(transaction: Transaction): Promise<Transaction>;
   findByUserId(userId: string): Promise<Transaction[]>;
   findByDateRange(
     userId: string,

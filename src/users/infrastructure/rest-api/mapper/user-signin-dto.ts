@@ -10,12 +10,12 @@ export class UserSignInDtoMapper {
       updatedAt: user.updatedAt,
     };
   }
-  static toDomain(email: string, password: string): User {
+  static toDomain(email: string): User {
     return new User(
       null as unknown as number,
       email,
       null as unknown as string,
-      password,
+      null as unknown as string,
       null as unknown as Date,
       null as unknown as Date
     );

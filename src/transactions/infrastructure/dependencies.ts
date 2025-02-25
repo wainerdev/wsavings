@@ -6,7 +6,8 @@ import { TransactionController } from "@transactions/infrastructure/rest-api/tra
 const transactionRepository = new TransactionRepository();
 const transactionService = new TransactionService(
   transactionRepository,
-  logger
+  logger,
+  "[Transaction Service]"
 );
 
 export const transactionController = new TransactionController(

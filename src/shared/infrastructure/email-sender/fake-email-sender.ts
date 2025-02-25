@@ -1,5 +1,5 @@
-import { EmailSender } from "../../domain/email-sender";
-import { Logger } from "../../domain/logger";
+import { EmailSender } from "@shared/domain/email-sender";
+import { Logger } from "@shared/domain/logger";
 
 export class FakeEmailSender implements EmailSender {
   constructor(private readonly logger: Logger) {}

@@ -1,5 +1,3 @@
-import "module-alias/register";
-
 import { Category } from "@categories/domain/category";
 import { CategoryRepositoryPort } from "@categories/domain/category-repository-port";
 import { CategoryDtaMapper } from "@categories/infrastructure/databases/postgresql/mappers/category-dta";
@@ -7,11 +5,12 @@ import { PgCategory } from "@shared/infrastructure/databases/postgresql/models/P
 import { PgUser } from "@shared/infrastructure/databases/postgresql/models/PgUser";
 
 export class CategoryRepository implements CategoryRepositoryPort {
-  async save(category: Category): Promise<void> {
-    const mappedCategory = CategoryDtaMapper.toEntity(category);
+  async create(category: Category): Promise<Category> {
+    const entityCategory = CategoryDtaMapper.toEntity(category);
 
-    console.log("saving category", mappedCategory);
-    await PgCategory.create(mappedCategory);
+    const createdCategory = await PgCategory.create(entityCategory);
+
+    return CategoryDtaMapper.toDomain(createdCategory);
   }
 
   async findByUserId(userId: number): Promise<Category[]> {
@@ -26,8 +25,10 @@ export class CategoryRepository implements CategoryRepositoryPort {
     return categories.map(CategoryDtaMapper.toDomain);
   }
 
-  async deleteCategoryById(categoryId: number): Promise<void> {
-    await PgCategory.update(
+  async deleteCategoryById(
+    categoryId: number
+  ): Promise<[affectedCount: number]> {
+    return PgCategory.update(
       { isDeleted: true },
       {
         where: { id: categoryId },
@@ -35,7 +36,7 @@ export class CategoryRepository implements CategoryRepositoryPort {
     );
   }
 
-  async findByUserIdAndCategoryId(
+  async findByIdAndCategoryId(
     userId: number,
     categoryId: number
   ): Promise<Category | null> {

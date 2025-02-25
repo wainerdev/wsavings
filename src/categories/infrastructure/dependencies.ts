@@ -4,6 +4,10 @@ import { CategoryController } from "@categories/infrastructure/rest-api/category
 import { logger } from "@shared/infrastructure/dependencies";
 
 const categoryRepository = new CategoryRepository();
-const categoryService = new CategoryService(categoryRepository, logger);
+const categoryService = new CategoryService(
+  categoryRepository,
+  logger,
+  "[CategoryService]"
+);
 
 export const categoryController = new CategoryController(categoryService);

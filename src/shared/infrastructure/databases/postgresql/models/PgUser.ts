@@ -1,8 +1,7 @@
 import { PgCategory } from "@shared/infrastructure/databases/postgresql/models/PgCategory";
+import { PgTransaction } from "@shared/infrastructure/databases/postgresql/models/PgTransaction";
 import { sequelize } from "@shared/infrastructure/databases/postgresql/sequelize";
 import { DataTypes, Model } from "sequelize";
-
-import { PgTransaction } from "./PgTransaction";
 
 export interface UserRow {
   id: number;

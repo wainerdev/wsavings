@@ -1,10 +1,10 @@
 import { Category } from "@categories/domain/category";
 
 export interface CategoryRepositoryPort {
-  save(category: Category): Promise<void>;
+  create(category: Category): Promise<Category>;
   findByUserId(userId: number): Promise<Category[]>;
-  deleteCategoryById(categoryId: number): Promise<void>;
-  findByUserIdAndCategoryId(
+  deleteCategoryById(categoryId: number): Promise<[affectedCount: number]>;
+  findByIdAndCategoryId(
     userId: number,
     categoryId: number
   ): Promise<Category | null>;

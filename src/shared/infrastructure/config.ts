@@ -1,4 +1,7 @@
 export const config = {
+  bcrypt: {
+    JSON_SECRET: (process.env.JWT_SECRET = "secret"),
+  },
   server: {
     port: process.env.PORT || 3000,
   },

@@ -4,11 +4,11 @@ import express from "express";
 const userRouter = express.Router();
 
 userRouter.post(
-  "/sing-in",
+  "/sign-in",
   transactionController.singIn.bind(transactionController)
 );
-userRouter.get(
-  "/sing-up",
+userRouter.post(
+  "/sign-up",
   transactionController.singUp.bind(transactionController)
 );
 

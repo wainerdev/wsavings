@@ -6,7 +6,6 @@ export class UserSignUpDtoMapper {
       id: user.id,
       fullName: user.fullName,
       email: user.email,
-      password: user.password,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     };

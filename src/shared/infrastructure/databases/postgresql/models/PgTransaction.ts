@@ -1,7 +1,6 @@
+import { PgUser } from "@shared/infrastructure/databases/postgresql/models/PgUser";
+import { sequelize } from "@shared/infrastructure/databases/postgresql/sequelize";
 import { DataTypes, Model } from "sequelize";
-
-import { sequelize } from "../sequelize";
-import { PgUser } from "./PgUser";
 
 export interface TransactionRow {
   id: number;

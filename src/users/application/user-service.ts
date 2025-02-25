@@ -1,30 +1,41 @@
-import { Logger } from "../../shared/domain/logger";
-import { User } from "../domain/user";
-import { UserRepositoryPort } from "../domain/user-repository-port";
+import { Logger } from "@shared/domain/logger";
+import { User } from "@users/domain/user";
+import { UserRepositoryPort } from "@users/domain/user-repository-port";
+
+const SERVICE_NAME = "[User Service]";
 
 export class UserService {
   constructor(
     private readonly userRepository: UserRepositoryPort,
     private readonly logger: Logger
   ) {}
-
-  async singIn(user: User): Promise<void> {
+  async singUp(user: User): Promise<User> {
     this.logger.info(
-      `[User Service] - User ${user.email} is trying to sign in.`
+      `${SERVICE_NAME} - Signing user with email:${user.email}.`
     );
 
-    await this.userRepository.singIn(user);
+    const foundUser = await this.userRepository.singUp(user);
 
-    this.logger.info("[User Service] - User signed in successfully");
+    this.logger.info(
+      `${SERVICE_NAME} - Signed user with email:${user.email} successfully.`
+    );
+
+    return foundUser;
   }
 
-  async singUp(user: User): Promise<void> {
-    this.logger.info(
-      `[User Service] - User ${user.email} is trying to sign up.`
-    );
+  async findByEmail(email: string): Promise<User | null> {
+    this.logger.info(`${SERVICE_NAME} - Finding user with email:${email}.`);
 
-    await this.userRepository.singUp(user);
+    const user = await this.userRepository.findByEmail(email);
 
-    this.logger.info("[User Service] - User signed up successfully");
+    if (!user) {
+      this.logger.info(`${SERVICE_NAME} - User with email ${email} not found.`);
+
+      return null;
+    }
+
+    this.logger.info(`${SERVICE_NAME} - User with email ${email} found.`);
+
+    return user;
   }
 }

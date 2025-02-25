@@ -5,10 +5,12 @@ import { TransactionRepositoryPort } from "@transactions/domain/transaction-repo
 import { TransactionDtaMapper } from "@transactions/infrastructure/databases/postgresql/mappers/transaction-dta";
 
 export class TransactionRepository implements TransactionRepositoryPort {
-  async save(transaction: Transaction): Promise<void> {
+  async create(transaction: Transaction): Promise<Transaction> {
     const mappedTransaction = TransactionDtaMapper.toEntity(transaction);
 
-    await PgTransaction.create(mappedTransaction);
+    const createdTransaction = await PgTransaction.create(mappedTransaction);
+
+    return TransactionDtaMapper.toDomain(createdTransaction);
   }
 
   async findByUserId(userId: string): Promise<Transaction[]> {
