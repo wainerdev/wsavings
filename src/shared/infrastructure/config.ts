@@ -12,4 +12,13 @@ export const config = {
     password: process.env.DB_PASSWORD,
     port: Number(process.env.DB_PORT),
   },
+  cookie: {
+    args: {
+      httpOnly: false,
+      secure: true,
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60 * 24, // 24 hours
+    },
+    keyName: "userAuth",
+  },
 };

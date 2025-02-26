@@ -2,17 +2,19 @@ import {
   EcryptService,
   GenerateTokenPayload,
 } from "@shared/application/ecrypt-service";
+import { config } from "@shared/infrastructure/config";
 import { UserService } from "@users/application/user-service";
 import { UserSignInDtoMapper } from "@users/infrastructure/rest-api/mapper/user-signin-dto";
 import { UserSignUpDtoMapper } from "@users/infrastructure/rest-api/mapper/user-signup-dto";
-import { Request, Response } from "express";
+import { CookieOptions, Request, Response } from "express";
+
 export class UserController {
   constructor(
     private readonly userService: UserService,
     private readonly ecryptService: EcryptService
   ) {}
 
-  async singIn(req: Request, res: Response) {
+  async singIn(req: Request, res: Response): Promise<void> {
     const { email, password } = req.body;
 
     const domainUser = UserSignInDtoMapper.toDomain(email);
@@ -20,7 +22,8 @@ export class UserController {
     const foundUser = await this.userService.findByEmail(domainUser.email);
 
     if (!foundUser) {
-      return res.status(401).send({ message: "User not found" });
+      res.status(401).send({ message: "User not found" });
+      return;
     }
 
     const isPasswordValid = await this.ecryptService.comparePass(
@@ -29,7 +32,8 @@ export class UserController {
     );
 
     if (!isPasswordValid) {
-      return res.status(401).send({ message: "Invalid password" });
+      res.status(401).send({ message: "Invalid password" });
+      return;
     }
 
     const dtoUser = UserSignInDtoMapper.toDto(foundUser);
@@ -38,16 +42,26 @@ export class UserController {
       dtoUser as GenerateTokenPayload
     );
 
-    return res.status(200).send({ user: dtoUser, token });
+    res.cookie(
+      config.cookie.keyName,
+      {
+        user: dtoUser,
+        token,
+      },
+      config.cookie.args as CookieOptions
+    );
+
+    res.status(200).send({ user: dtoUser, token });
   }
 
-  async singUp(req: Request, res: Response) {
+  async singUp(req: Request, res: Response): Promise<void> {
     const { fullName, email, password } = req.body;
 
     const foundUser = await this.userService.findByEmail(email);
 
     if (foundUser) {
-      return res.status(400).send({ message: "User already exists" });
+      res.status(400).send({ message: "User already exists" });
+      return;
     }
 
     const scriptedPassword = await this.ecryptService.passwordEncrypt(password);
@@ -61,11 +75,12 @@ export class UserController {
     const signedUser = await this.userService.singUp(domainUser);
 
     if (!signedUser) {
-      return res.status(400).send({ message: "User already exists" });
+      res.status(400).send({ message: "User already exists" });
+      return;
     }
 
     const dtoUser = UserSignUpDtoMapper.toDto(signedUser);
 
-    return res.status(200).send(dtoUser);
+    res.status(200).send(dtoUser);
   }
 }

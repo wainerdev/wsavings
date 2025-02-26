@@ -5,7 +5,7 @@ import { Request, Response } from "express";
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
-  async create(req: Request, res: Response) {
+  async create(req: Request, res: Response): Promise<void> {
     const { userId, title } = req.body;
 
     const domainCategory = CategoryDtoMapper.toDomain(userId, title);
@@ -14,30 +14,33 @@ export class CategoryController {
 
     const dtoCategory = CategoryDtoMapper.toDto(createdCategory);
 
-    return res.status(200).send(dtoCategory);
+    res.status(200).send(dtoCategory);
   }
 
-  async getCategoryByUserId(_: Request, res: Response) {
+  async getCategoryByUserId(_: Request, res: Response): Promise<void> {
     const userId = 1;
 
     const categories = await this.categoryService.findByUserId(Number(userId));
 
     const dtoCategories = categories.map(CategoryDtoMapper.toDto);
 
-    return res.status(200).send(dtoCategories);
+    res.status(200).send(dtoCategories);
   }
 
-  async deleteCategoryByUserId(req: Request, res: Response) {
+  async deleteCategoryByUserId(req: Request, res: Response): Promise<void> {
     const { categoryId } = req.params;
 
     const [affectedCount] = await this.categoryService.deleteCategoryById(
       Number(categoryId)
     );
 
-    return res.status(200).send({ affectedCount });
+    res.status(200).send({ affectedCount });
   }
 
-  async getCategoryByUserIdAndCategoryId(req: Request, res: Response) {
+  async getCategoryByUserIdAndCategoryId(
+    req: Request,
+    res: Response
+  ): Promise<void> {
     const userId = 1;
     const { categoryId } = req.params;
 
@@ -48,6 +51,6 @@ export class CategoryController {
 
     const dtoCategory = category && CategoryDtoMapper.toDto(category);
 
-    return res.status(200).send(dtoCategory);
+    res.status(200).send(dtoCategory);
   }
 }

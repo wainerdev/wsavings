@@ -6,7 +6,7 @@ export class TransactionService {
   constructor(
     private readonly transactionRepository: TransactionRepositoryPort,
     private readonly logger: Logger,
-    private readonly serviceName: string
+    private readonly serviceName = "[Transaction Service]"
   ) {}
 
   async create(transaction: Transaction): Promise<Transaction> {

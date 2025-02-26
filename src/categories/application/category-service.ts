@@ -6,7 +6,7 @@ export class CategoryService {
   constructor(
     private readonly categoryRepository: CategoryRepositoryPort,
     private readonly logger: Logger,
-    private readonly serviceName: string
+    private readonly serviceName = "[Category Service]"
   ) {}
 
   async create(category: Category): Promise<Category> {

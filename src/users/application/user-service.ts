@@ -6,7 +6,7 @@ export class UserService {
   constructor(
     private readonly userRepository: UserRepositoryPort,
     private readonly logger: Logger,
-    private readonly serviceName: string
+    private readonly serviceName = "[User Service]"
   ) {}
   async singUp(user: User): Promise<User> {
     this.logger.info(

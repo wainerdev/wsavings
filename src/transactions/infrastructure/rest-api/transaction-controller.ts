@@ -5,7 +5,7 @@ import { Request, Response } from "express";
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
-  async create(req: Request, res: Response) {
+  async create(req: Request, res: Response): Promise<void> {
     const { userId, amount, description, type } = req.body;
 
     const domainTransaction = TransactionDtoMapper.toDomain(
@@ -21,10 +21,10 @@ export class TransactionController {
 
     const dtoTransaction = TransactionDtoMapper.toDto(createdTransaction);
 
-    return res.status(200).send(dtoTransaction);
+    res.status(200).send(dtoTransaction);
   }
 
-  async getTransactionsByUserId(req: Request, res: Response) {
+  async getTransactionsByUserId(req: Request, res: Response): Promise<void> {
     const { userId } = req.params;
 
     const transactions = await this.transactionService.getTransactionsByUserId(
@@ -33,10 +33,10 @@ export class TransactionController {
 
     const dtoTransactions = transactions.map(TransactionDtoMapper.toDto);
 
-    return res.status(200).send(dtoTransactions);
+    res.status(200).send(dtoTransactions);
   }
 
-  async getTransactionsByDateRange(req: Request, res: Response) {
+  async getTransactionsByDateRange(req: Request, res: Response): Promise<void> {
     const { userId, startDate, endDate } = req.body;
 
     const transactions =
@@ -48,6 +48,6 @@ export class TransactionController {
 
     const dtoTransactions = transactions.map(TransactionDtoMapper.toDto);
 
-    return res.status(200).send(dtoTransactions);
+    res.status(200).send(dtoTransactions);
   }
 }
