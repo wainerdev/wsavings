@@ -10,4 +10,5 @@ export interface TokenPayload {
 
 export interface Middleware {
   verifyUser(req: Request, res: Response, next: NextFunction): void;
+  updateToken(req: Request, res: Response, next: NextFunction): void;
 }

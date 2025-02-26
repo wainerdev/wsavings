@@ -3,7 +3,7 @@ import { Middleware } from "@shared/domain/middleware";
 import { EcryptService } from "@shared/infrastructure/auth/ecrypt";
 import { config } from "@shared/infrastructure/config";
 import { UserRepositoryPort } from "@users/domain/user-repository-port";
-import { NextFunction, Request, Response } from "express";
+import { CookieOptions, NextFunction, Request, Response } from "express";
 
 const SERVICE_NAME = "[Middleware Service]";
 
@@ -13,7 +13,11 @@ export class MiddlewareService implements Middleware {
     private readonly logger: Logger,
     private readonly ecryptService: EcryptService
   ) {}
-  async verifyUser(req: Request, res: Response, next: NextFunction) {
+  async verifyUser(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const token = req.cookies[config.cookie.keyName].token;
       if (!token) {
@@ -55,5 +59,30 @@ export class MiddlewareService implements Middleware {
       );
       res.status(401).send({ message: "Unauthorized" });
     }
+  }
+
+  async updateToken(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    this.logger.info(`${SERVICE_NAME} Updating token.`);
+    const token = await this.ecryptService.generateToken({
+      ...req.authUser,
+    });
+
+    res.cookie(
+      config.cookie.keyName,
+      {
+        user: req.authUser,
+        token,
+        renew: new Date(),
+      },
+      config.cookie.args as CookieOptions
+    );
+
+    this.logger.info(`${SERVICE_NAME} Token updated.`);
+
+    next();
   }
 }

@@ -7,21 +7,25 @@ const categoryRouter = express.Router();
 categoryRouter.post(
   "/",
   middleware.verifyUser.bind(middleware),
-  categoryController.create.bind(categoryController)
+  categoryController.create.bind(categoryController),
+  middleware.updateToken.bind(middleware)
 );
 categoryRouter.get(
   "/",
   middleware.verifyUser.bind(middleware),
-  categoryController.findByUserId.bind(categoryController)
+  categoryController.findByUserId.bind(categoryController),
+  middleware.updateToken.bind(middleware)
 );
 categoryRouter.delete(
   "/:categoryId",
   middleware.verifyUser.bind(middleware),
+  middleware.updateToken.bind(middleware),
   categoryController.deleteCategoryByUserId.bind(categoryController)
 );
 categoryRouter.get(
   "/:categoryId",
   middleware.verifyUser.bind(middleware),
+  middleware.updateToken.bind(middleware),
   categoryController.findByUserIdAndCategoryId.bind(categoryController)
 );
 

@@ -1,7 +1,4 @@
-import {
-  EcryptService,
-  GenerateTokenPayload,
-} from "@shared/infrastructure/auth/ecrypt";
+import { EcryptService } from "@shared/infrastructure/auth/ecrypt";
 import { config } from "@shared/infrastructure/config";
 import { UserService } from "@users/application/user-service";
 import { UserSignInDtoMapper } from "@users/infrastructure/rest-api/mapper/user-signin-dto";
@@ -38,9 +35,9 @@ export class UserController {
 
     const dtoUser = UserSignInDtoMapper.toDto(foundUser);
 
-    const token = await this.ecryptService.generateToken(
-      dtoUser as GenerateTokenPayload
-    );
+    const token = await this.ecryptService.generateToken({
+      ...foundUser,
+    });
 
     res.cookie(
       config.cookie.keyName,
