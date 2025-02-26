@@ -12,7 +12,7 @@ categoryRouter.post(
 categoryRouter.get(
   "/",
   middleware.verifyUser.bind(middleware),
-  categoryController.getCategoryByUserId.bind(categoryController)
+  categoryController.findByUserId.bind(categoryController)
 );
 categoryRouter.delete(
   "/:categoryId",
@@ -22,7 +22,7 @@ categoryRouter.delete(
 categoryRouter.get(
   "/:categoryId",
   middleware.verifyUser.bind(middleware),
-  categoryController.getCategoryByUserIdAndCategoryId.bind(categoryController)
+  categoryController.findByUserIdAndCategoryId.bind(categoryController)
 );
 
 export { categoryRouter };

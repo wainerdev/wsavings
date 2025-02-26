@@ -1,4 +1,5 @@
 import { Category } from "@categories/domain/category";
+import { UserSignInDtoMapper } from "@users/infrastructure/rest-api/mapper/user-signin-dto";
 
 export class CategoryDtoMapper {
   static toDto(category: Category): unknown {
@@ -6,7 +7,7 @@ export class CategoryDtoMapper {
       id: category.id,
       title: category.title,
       userId: category.userId,
-      user: category.user,
+      user: category.user ? UserSignInDtoMapper.toDto(category.user) : null,
       createdAt: category.createdAt,
       updatedAt: category.updatedAt,
     };

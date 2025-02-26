@@ -1,7 +1,7 @@
 import {
   EcryptService,
   GenerateTokenPayload,
-} from "@shared/application/ecrypt-service";
+} from "@shared/infrastructure/auth/ecrypt";
 import { config } from "@shared/infrastructure/config";
 import { UserService } from "@users/application/user-service";
 import { UserSignInDtoMapper } from "@users/infrastructure/rest-api/mapper/user-signin-dto";

@@ -1,6 +1,7 @@
-import { EcryptService } from "@shared/application/ecrypt-service";
 import { Logger } from "@shared/domain/logger";
 import { Middleware } from "@shared/domain/middleware";
+import { EcryptService } from "@shared/infrastructure/auth/ecrypt";
+import { config } from "@shared/infrastructure/config";
 import { UserRepositoryPort } from "@users/domain/user-repository-port";
 import { NextFunction, Request, Response } from "express";
 
@@ -12,19 +13,16 @@ export class MiddlewareService implements Middleware {
     private readonly logger: Logger,
     private readonly ecryptService: EcryptService
   ) {}
-  async verifyUser(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> {
+  async verifyUser(req: Request, res: Response, next: NextFunction) {
     try {
-      const token = req.cookies.token;
+      const token = req.cookies[config.cookie.keyName].token;
       if (!token) {
         this.logger.info(
           `${SERVICE_NAME} Token not found in the request cookies.`
         );
 
         res.status(401).send({ message: "Unauthorized" });
+        return;
       }
 
       const validToken = await this.ecryptService.verifyToken(token);
@@ -33,17 +31,21 @@ export class MiddlewareService implements Middleware {
         this.logger.info(`${SERVICE_NAME} Token is invalid.`);
 
         res.status(401).send({ message: "Unauthorized" });
+        return;
       }
 
-      const foundUser = this.userRepository.findByEmail(validToken.email);
+      const foundUser = await this.userRepository.findByEmail(validToken.email);
 
       if (!foundUser) {
         this.logger.info(`${SERVICE_NAME} User not found.`);
 
         res.status(401).send({ message: "Unauthorized" });
+        return;
       }
 
       this.logger.info(`${SERVICE_NAME} User found.`);
+
+      req.authUser = foundUser;
 
       next();
     } catch (error) {

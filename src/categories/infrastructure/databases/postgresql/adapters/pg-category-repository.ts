@@ -10,6 +10,12 @@ export class CategoryRepository implements CategoryRepositoryPort {
 
     const createdCategory = await PgCategory.create(entityCategory);
 
+    // const foundCategory = await PgCategory.findOne({
+    //   where: {
+    //     id: createdCategory.id
+    //   }
+    // });
+
     return CategoryDtaMapper.toDomain(createdCategory);
   }
 

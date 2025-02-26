@@ -1,5 +1,5 @@
-import { EcryptService } from "@shared/application/ecrypt-service";
-import { MiddlewareService } from "@shared/application/middleware-service";
+import { EcryptService } from "@shared/infrastructure/auth/ecrypt";
+import { MiddlewareService } from "@shared/infrastructure/auth/middleware";
 import { FakeEmailSender } from "@shared/infrastructure/email-sender/fake-email-sender";
 import { ConsoleLogger } from "@shared/infrastructure/logger/console-logger";
 import { UserService } from "@users/application/user-service";

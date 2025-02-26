@@ -3,7 +3,7 @@ import {
   TransactionRow,
 } from "@shared/infrastructure/databases/postgresql/models/PgTransaction";
 import { Transaction } from "@transactions/domain/transaction";
-import { UserDtaMapper } from "@transactions/infrastructure/databases/postgresql/mappers/user-dta";
+import { UserDtaMapper } from "@users/infrastructure/database/postgresql/mapper/user.dta";
 
 export class TransactionDtaMapper {
   static toEntity(transaction: Transaction): TransactionRow {
@@ -22,7 +22,7 @@ export class TransactionDtaMapper {
     return new Transaction(
       transaction.id,
       transaction.userId,
-      UserDtaMapper.toDomain(transaction.users),
+      transaction.users ? UserDtaMapper.toDomain(transaction.users) : null,
       transaction.amount,
       transaction.description,
       transaction.type === "I" ? "INCOME" : "EXPENSE",

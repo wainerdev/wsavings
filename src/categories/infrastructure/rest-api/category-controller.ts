@@ -6,7 +6,8 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   async create(req: Request, res: Response): Promise<void> {
-    const { userId, title } = req.body;
+    const { title } = req.body;
+    const { id: userId } = req.authUser;
 
     const domainCategory = CategoryDtoMapper.toDomain(userId, title);
 
@@ -14,17 +15,20 @@ export class CategoryController {
 
     const dtoCategory = CategoryDtoMapper.toDto(createdCategory);
 
-    res.status(200).send(dtoCategory);
+    res.status(200).send({
+      category: dtoCategory,
+    });
   }
 
-  async getCategoryByUserId(_: Request, res: Response): Promise<void> {
-    const userId = 1;
-
-    const categories = await this.categoryService.findByUserId(Number(userId));
+  async findByUserId(req: Request, res: Response): Promise<void> {
+    const { id } = req.authUser;
+    const categories = await this.categoryService.findByUserId(id);
 
     const dtoCategories = categories.map(CategoryDtoMapper.toDto);
 
-    res.status(200).send(dtoCategories);
+    res.status(200).send({
+      categories: dtoCategories,
+    });
   }
 
   async deleteCategoryByUserId(req: Request, res: Response): Promise<void> {
@@ -37,20 +41,19 @@ export class CategoryController {
     res.status(200).send({ affectedCount });
   }
 
-  async getCategoryByUserIdAndCategoryId(
-    req: Request,
-    res: Response
-  ): Promise<void> {
-    const userId = 1;
+  async findByUserIdAndCategoryId(req: Request, res: Response): Promise<void> {
+    const { id } = req.authUser;
     const { categoryId } = req.params;
 
     const category = await this.categoryService.findByIdAndCategoryId(
-      userId,
+      id,
       Number(categoryId)
     );
 
     const dtoCategory = category && CategoryDtoMapper.toDto(category);
 
-    res.status(200).send(dtoCategory);
+    res.status(200).send({
+      category: dtoCategory,
+    });
   }
 }

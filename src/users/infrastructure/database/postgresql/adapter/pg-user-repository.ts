@@ -1,7 +1,7 @@
 import { PgUser } from "@shared/infrastructure/databases/postgresql/models/PgUser";
 import { User } from "@users/domain/user";
 import { UserRepositoryPort } from "@users/domain/user-repository-port";
-import { UserDtaMapper } from "@users/infrastructure/mapper/user-dta";
+import { UserDtaMapper } from "@users/infrastructure/database/postgresql/mapper/user.dta";
 
 export class UserRepository implements UserRepositoryPort {
   async singUp(user: User): Promise<User> {

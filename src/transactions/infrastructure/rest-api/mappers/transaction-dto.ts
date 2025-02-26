@@ -1,5 +1,6 @@
 import { Transaction } from "@transactions/domain/transaction";
 import type { TransactionType } from "@transactions/domain/transactionType";
+import { UserSignInDtoMapper } from "@users/infrastructure/rest-api/mapper/user-signin-dto";
 
 export class TransactionDtoMapper {
   static toDto(transaction: Transaction): unknown {
@@ -9,7 +10,9 @@ export class TransactionDtoMapper {
       amount: transaction.amount,
       description: transaction.description,
       type: transaction.type,
-      user: transaction.user,
+      user: transaction.user
+        ? UserSignInDtoMapper.toDto(transaction.user)
+        : null,
     };
   }
   static toDomain(

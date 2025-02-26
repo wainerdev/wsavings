@@ -3,7 +3,7 @@ import {
   CategoryEntity,
   PgCategory,
 } from "@shared/infrastructure/databases/postgresql/models/PgCategory";
-import { UserDtaMapper } from "@transactions/infrastructure/databases/postgresql/mappers/user-dta";
+import { UserDtaMapper } from "@users/infrastructure/database/postgresql/mapper/user.dta";
 
 export class CategoryDtaMapper {
   static toEntity(category: Category): CategoryEntity {
@@ -18,7 +18,7 @@ export class CategoryDtaMapper {
       category.id,
       category.title,
       category.userId,
-      UserDtaMapper.toDomain(category.users),
+      category.users ? UserDtaMapper.toDomain(category.users) : null,
       category.createdAt,
       category.updatedAt
     );
