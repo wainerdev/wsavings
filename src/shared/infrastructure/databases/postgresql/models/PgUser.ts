@@ -6,6 +6,7 @@ import { DataTypes, Model } from "sequelize";
 export interface UserRow {
   id: number;
   fullName: string;
+  balance: number;
   email: string;
   password: string;
   isDeleted: boolean;
@@ -15,12 +16,13 @@ export interface UserRow {
 
 export type UserEntity = Omit<
   UserRow,
-  "id" | "createdAt" | "updatedAt" | "isDeleted"
+  "id" | "createdAt" | "updatedAt" | "isDeleted" | "balance"
 >;
 
 export class PgUser extends Model<UserRow, UserEntity> {
   declare id: number;
   declare fullName: string;
+  declare balance: number;
   declare email: string;
   declare password: string;
   declare createdAt: Date;
@@ -38,6 +40,10 @@ PgUser.init(
     fullName: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    balance: {
+      type: DataTypes.FLOAT,
+      defaultValue: 0,
     },
     email: {
       type: DataTypes.STRING,
@@ -87,4 +93,15 @@ PgUser.hasOne(PgTransaction, {
 PgTransaction.belongsTo(PgUser, {
   foreignKey: "userId",
   as: "users",
+});
+
+PgCategory.hasOne(PgTransaction, {
+  foreignKey: "categoryId",
+  as: "userCategory",
+  onDelete: "CASCADE",
+});
+
+PgTransaction.belongsTo(PgCategory, {
+  foreignKey: "categoryId",
+  as: "categories",
 });

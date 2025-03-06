@@ -12,6 +12,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      balance: {
+        type: Sequelize.FLOAT,
+        defaultValue: 0,
+      },
       email: {
         type: Sequelize.STRING,
         allowNull: false,

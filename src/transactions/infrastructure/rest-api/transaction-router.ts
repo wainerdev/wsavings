@@ -11,13 +11,13 @@ transactionRouter.post(
   middleware.updateToken.bind(middleware)
 );
 transactionRouter.get(
-  "/:userId",
+  "/",
   middleware.verifyUser.bind(middleware),
   transactionController.getTransactionsByUserId.bind(transactionController),
   middleware.updateToken.bind(middleware)
 );
 transactionRouter.get(
-  "/:userId/:startDate/:endDate",
+  "/:startDate/:endDate",
   middleware.verifyUser.bind(middleware),
   transactionController.getTransactionsByDateRange.bind(transactionController),
   middleware.updateToken.bind(middleware)

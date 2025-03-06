@@ -25,7 +25,7 @@ export class TransactionService {
     return transaction;
   }
 
-  async getTransactionsByUserId(userId: string): Promise<Transaction[]> {
+  async getTransactionsByUserId(userId: number): Promise<Transaction[]> {
     this.logger.info(
       `${this.serviceName} - Getting transactions for user: ${userId}`
     );
@@ -40,7 +40,7 @@ export class TransactionService {
   }
 
   async getTransactionsByDateRange(
-    userId: string,
+    userId: number,
     startDate: Date,
     endDate: Date
   ): Promise<Transaction[]> {

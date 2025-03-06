@@ -17,6 +17,7 @@ export class UserDtaMapper {
       user.id,
       user.email,
       user.fullName,
+      user.balance,
       user.password,
       user.createdAt,
       user.updatedAt

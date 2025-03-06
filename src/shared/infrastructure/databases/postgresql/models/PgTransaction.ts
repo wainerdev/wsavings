@@ -1,3 +1,4 @@
+import { PgCategory } from "@shared/infrastructure/databases/postgresql/models/PgCategory";
 import { PgUser } from "@shared/infrastructure/databases/postgresql/models/PgUser";
 import { sequelize } from "@shared/infrastructure/databases/postgresql/sequelize";
 import { DataTypes, Model } from "sequelize";
@@ -7,6 +8,7 @@ export interface TransactionRow {
   amount: number;
   description: string;
   userId: number;
+  categoryId: number;
   type: string;
   createdAt: Date;
   updatedAt: Date;
@@ -21,6 +23,8 @@ export class PgTransaction extends Model<
   declare description: string;
   declare userId: number;
   declare users: PgUser;
+  declare categoryId: number;
+  declare categories: PgCategory;
   declare type: string;
   declare createdAt: Date;
   declare updatedAt: Date;
@@ -34,6 +38,10 @@ PgTransaction.init(
       autoIncrement: true,
     },
     userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    categoryId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

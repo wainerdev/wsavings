@@ -18,6 +18,16 @@ module.exports = {
         onUpdate: 'CASCADE', // Ensure that updates to userId in users table are reflected
         onDelete: 'CASCADE', // Automatically delete transactions if the associated user is deleted
       },
+      category: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Categories', // Name of the referenced table
+          key: 'id', // Column in the referenced table
+        },
+        onUpdate: 'CASCADE', // Ensure that updates to userId in users table are reflected
+        onDelete: 'CASCADE', // Automatically delete transactions if the associated user is deleted
+      },
       description: {
         type: Sequelize.STRING,
         allowNull: false,

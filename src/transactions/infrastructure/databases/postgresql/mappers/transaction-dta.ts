@@ -1,3 +1,4 @@
+import { CategoryDtaMapper } from "@categories/infrastructure/databases/postgresql/mappers/category-dta";
 import {
   PgTransaction,
   TransactionRow,
@@ -10,9 +11,10 @@ export class TransactionDtaMapper {
     return {
       id: transaction.id,
       userId: transaction.userId as number,
+      categoryId: transaction.categoryId as number,
       amount: transaction.amount,
       description: transaction.description,
-      type: transaction.type,
+      type: transaction.type === "INCOME" ? "I" : "E",
       createdAt: transaction.createdAt,
       updatedAt: transaction.updatedAt,
     };
@@ -23,6 +25,10 @@ export class TransactionDtaMapper {
       transaction.id,
       transaction.userId,
       transaction.users ? UserDtaMapper.toDomain(transaction.users) : null,
+      transaction.categoryId,
+      transaction.categories
+        ? CategoryDtaMapper.toDomain(transaction.categories)
+        : null,
       transaction.amount,
       transaction.description,
       transaction.type === "I" ? "INCOME" : "EXPENSE",

@@ -5,6 +5,7 @@ export class UserSignUpDtoMapper {
     return {
       id: user.id,
       fullName: user.fullName,
+      balance: user.balance,
       email: user.email,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
@@ -15,6 +16,7 @@ export class UserSignUpDtoMapper {
       null as unknown as number,
       email,
       fullName,
+      null as unknown as number,
       password,
       null as unknown as Date,
       null as unknown as Date

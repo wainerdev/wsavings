@@ -31,4 +31,17 @@ export class UserRepository implements UserRepositoryPort {
 
     return UserDtaMapper.toDomain(userFound);
   }
+
+  async updateUserBalance(
+    userId: number,
+    balance: number
+  ): Promise<[affectedCount: number]> {
+    const userFound = await PgUser.findByPk(userId);
+
+    if (!userFound) {
+      throw new Error("User not found");
+    }
+
+    return PgUser.update({ balance }, { where: { id: userFound.id } });
+  }
 }

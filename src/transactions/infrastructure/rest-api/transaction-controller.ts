@@ -6,10 +6,12 @@ export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
   async create(req: Request, res: Response): Promise<void> {
-    const { userId, amount, description, type } = req.body;
+    const { id: userId } = req.authUser;
+    const { amount, description, type, categoryId } = req.body;
 
     const domainTransaction = TransactionDtoMapper.toDomain(
       userId,
+      categoryId,
       amount,
       description,
       type
@@ -21,11 +23,13 @@ export class TransactionController {
 
     const dtoTransaction = TransactionDtoMapper.toDto(createdTransaction);
 
-    res.status(200).send(dtoTransaction);
+    res.status(200).send({
+      transaction: dtoTransaction,
+    });
   }
 
   async getTransactionsByUserId(req: Request, res: Response): Promise<void> {
-    const { userId } = req.params;
+    const { id: userId } = req.authUser;
 
     const transactions = await this.transactionService.getTransactionsByUserId(
       userId
@@ -33,11 +37,14 @@ export class TransactionController {
 
     const dtoTransactions = transactions.map(TransactionDtoMapper.toDto);
 
-    res.status(200).send(dtoTransactions);
+    res.status(200).send({
+      transactions: dtoTransactions,
+    });
   }
 
   async getTransactionsByDateRange(req: Request, res: Response): Promise<void> {
-    const { userId, startDate, endDate } = req.body;
+    const { startDate, endDate } = req.body;
+    const { id: userId } = req.authUser;
 
     const transactions =
       await this.transactionService.getTransactionsByDateRange(
@@ -48,6 +55,8 @@ export class TransactionController {
 
     const dtoTransactions = transactions.map(TransactionDtoMapper.toDto);
 
-    res.status(200).send(dtoTransactions);
+    res.status(200).send({
+      transactions: dtoTransactions,
+    });
   }
 }

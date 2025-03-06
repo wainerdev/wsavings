@@ -49,4 +49,20 @@ export class UserService {
 
     return user;
   }
+
+  async updateUserBalance(
+    userId: number,
+    balance: number
+  ): Promise<[affectedCount: number]> {
+    this.logger.info(`${this.serviceName} Updating balance for user profile.`);
+
+    const updatedUser = await this.userRepository.updateUserBalance(
+      userId,
+      balance
+    );
+
+    this.logger.info(`${this.serviceName} User profile updated.`);
+
+    return updatedUser;
+  }
 }

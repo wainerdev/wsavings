@@ -1,3 +1,4 @@
+import { PgCategory } from "@shared/infrastructure/databases/postgresql/models/PgCategory";
 import { PgTransaction } from "@shared/infrastructure/databases/postgresql/models/PgTransaction";
 import { PgUser } from "@shared/infrastructure/databases/postgresql/models/PgUser";
 import { Transaction } from "@transactions/domain/transaction";
@@ -13,29 +14,44 @@ export class TransactionRepository implements TransactionRepositoryPort {
     return TransactionDtaMapper.toDomain(createdTransaction);
   }
 
-  async findByUserId(userId: string): Promise<Transaction[]> {
+  async findByUserId(userId: number): Promise<Transaction[]> {
     const transactions = await PgTransaction.findAll({
       where: { userId },
-      include: {
-        model: PgUser,
-        as: "users",
-      },
+      include: [
+        {
+          model: PgUser,
+          as: "users",
+        },
+        {
+          model: PgCategory,
+          as: "categories",
+        },
+      ],
     });
 
     return transactions.map(TransactionDtaMapper.toDomain);
   }
 
   async findByDateRange(
-    userId: string,
+    userId: number,
     startDate: Date,
     endDate: Date
   ): Promise<Transaction[]> {
     const transactions = await PgTransaction.findAll({
-      where: { userId, createdAt: { $gte: startDate, $lte: endDate } },
-      include: {
-        model: PgUser,
-        as: "users",
+      where: {
+        userId,
+        // createdAt: { $gte: startDate, $lte: endDate }
       },
+      include: [
+        {
+          model: PgUser,
+          as: "users",
+        },
+        {
+          model: PgCategory,
+          as: "categories",
+        },
+      ],
     });
 
     return transactions.map(TransactionDtaMapper.toDomain);

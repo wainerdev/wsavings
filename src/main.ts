@@ -31,7 +31,7 @@ async function bootstrap() {
   app.listen(port, () => {
     sequelize
       .sync({
-        // force: true
+        // force: true,
       })
       .then(() => {
         console.log(`[APP] - Starting application on port ${port}`);
