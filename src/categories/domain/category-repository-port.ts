@@ -8,4 +8,5 @@ export interface CategoryRepositoryPort {
     userId: number,
     categoryId: number
   ): Promise<Category | null>;
+  update(categoryId: number, category: Category): Promise<Category>;
 }

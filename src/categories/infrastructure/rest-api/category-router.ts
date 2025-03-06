@@ -10,6 +10,12 @@ categoryRouter.post(
   categoryController.create.bind(categoryController),
   middleware.updateToken.bind(middleware)
 );
+categoryRouter.put(
+  "/:categoryId",
+  middleware.verifyUser.bind(middleware),
+  categoryController.update.bind(categoryController),
+  middleware.updateToken.bind(middleware)
+);
 categoryRouter.get(
   "/",
   middleware.verifyUser.bind(middleware),

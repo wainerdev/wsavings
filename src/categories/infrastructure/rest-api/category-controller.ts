@@ -56,4 +56,23 @@ export class CategoryController {
       category: dtoCategory,
     });
   }
+
+  async update(req: Request, res: Response): Promise<void> {
+    const { title } = req.body;
+    const { id: userId } = req.authUser;
+    const { categoryId } = req.params;
+
+    const domainCategory = CategoryDtoMapper.toDomain(userId, title);
+
+    const updatedCategory = await this.categoryService.update(
+      Number(categoryId),
+      domainCategory
+    );
+
+    const dtoCategory = CategoryDtoMapper.toDto(updatedCategory);
+
+    res.status(200).send({
+      category: dtoCategory,
+    });
+  }
 }

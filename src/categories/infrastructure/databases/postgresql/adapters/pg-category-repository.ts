@@ -54,4 +54,15 @@ export class CategoryRepository implements CategoryRepositoryPort {
 
     return CategoryDtaMapper.toDomain(category);
   }
+
+  async update(categoryId: number, category: Category): Promise<Category> {
+    const entityCategory = CategoryDtaMapper.toEntity(category);
+
+    const updatedCategory = await PgCategory.update(entityCategory, {
+      where: { id: categoryId },
+      returning: true,
+    });
+
+    return CategoryDtaMapper.toDomain(updatedCategory[1][0]);
+  }
 }

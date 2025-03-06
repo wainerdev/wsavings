@@ -21,4 +21,14 @@ export class UserRepository implements UserRepositoryPort {
 
     return UserDtaMapper.toDomain(userFound);
   }
+
+  async profile(userId: number): Promise<User> {
+    const userFound = await PgUser.findByPk(userId);
+
+    if (!userFound) {
+      throw new Error("User not found");
+    }
+
+    return UserDtaMapper.toDomain(userFound);
+  }
 }

@@ -78,7 +78,7 @@ export class MiddlewareService implements Middleware {
         token,
         renew: new Date(),
       },
-      config.cookie.args as CookieOptions
+      config.cookie.setCookie as CookieOptions
     );
 
     this.logger.info(`${SERVICE_NAME} Token updated.`);

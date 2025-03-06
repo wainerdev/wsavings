@@ -45,7 +45,7 @@ export class UserController {
         user: dtoUser,
         token,
       },
-      config.cookie.args as CookieOptions
+      config.cookie.setCookie as CookieOptions
     );
 
     res.status(200).send({ user: dtoUser, token });
@@ -78,6 +78,20 @@ export class UserController {
 
     const dtoUser = UserSignUpDtoMapper.toDto(signedUser);
 
-    res.status(200).send(dtoUser);
+    res.status(200).send({
+      user: dtoUser,
+    });
+  }
+
+  async profile(req: Request, res: Response): Promise<void> {
+    const { id } = req.authUser;
+
+    const foundUser = await this.userService.profile(id);
+
+    const dtoUser = UserSignUpDtoMapper.toDto(foundUser);
+
+    res.status(200).send({
+      user: dtoUser,
+    });
   }
 }

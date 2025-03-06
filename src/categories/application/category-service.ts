@@ -81,4 +81,21 @@ export class CategoryService {
     );
     return foundCategory;
   }
+
+  async update(categoryId: number, category: Category): Promise<Category> {
+    this.logger.info(
+      `${this.serviceName} Updating category with userId:${category.userId}`
+    );
+
+    const updatedCategory = await this.categoryRepository.update(
+      categoryId,
+      category
+    );
+
+    this.logger.info(
+      `${this.serviceName} Category with userId:${category.userId} updated successfully`
+    );
+
+    return updatedCategory;
+  }
 }

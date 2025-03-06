@@ -15,7 +15,12 @@ async function bootstrap() {
   const app = express();
 
   app.use(bodyParser.json());
-  app.use(cors());
+  app.use(
+    cors({
+      credentials: true,
+      origin: "http://localhost:8081",
+    })
+  );
   app.use(cookieParser());
   app.use("/users", userRouter);
   app.use("/transactions", transactionRouter);

@@ -13,12 +13,12 @@ export const config = {
     port: Number(process.env.DB_PORT),
   },
   cookie: {
-    args: {
+    setCookie: {
       httpOnly: false,
-      secure: true,
+      secure: false,
       sameSite: "lax",
       maxAge: 1000 * 60 * 60 * 24, // 24 hours
     },
-    keyName: "userAuth",
+    keyName: "Authorization",
   },
 };
