@@ -12,6 +12,10 @@ userRouter.post(
   "/sign-up",
   transactionController.singUp.bind(transactionController)
 );
+userRouter.post(
+  "/sign-out",
+  transactionController.singOut.bind(transactionController)
+);
 userRouter.get(
   "/profile",
   middleware.verifyUser.bind(middleware),

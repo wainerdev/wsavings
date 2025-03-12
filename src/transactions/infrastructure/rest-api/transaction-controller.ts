@@ -59,4 +59,20 @@ export class TransactionController {
       transactions: dtoTransactions,
     });
   }
+
+  async findByUserAndCategoryId(req: Request, res: Response): Promise<void> {
+    const { categoryId } = req.params;
+    const { id: userId } = req.authUser;
+
+    const transactions = await this.transactionService.findByCategoryId(
+      userId,
+      Number(categoryId)
+    );
+
+    const dtoTransactions = transactions.map(TransactionDtoMapper.toDto);
+
+    res.status(200).send({
+      transactions: dtoTransactions,
+    });
+  }
 }

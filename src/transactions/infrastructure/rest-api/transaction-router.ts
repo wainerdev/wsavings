@@ -17,6 +17,12 @@ transactionRouter.get(
   middleware.updateToken.bind(middleware)
 );
 transactionRouter.get(
+  "/:categoryId",
+  middleware.verifyUser.bind(middleware),
+  transactionController.findByUserAndCategoryId.bind(transactionController),
+  middleware.updateToken.bind(middleware)
+);
+transactionRouter.get(
   "/:startDate/:endDate",
   middleware.verifyUser.bind(middleware),
   transactionController.getTransactionsByDateRange.bind(transactionController),

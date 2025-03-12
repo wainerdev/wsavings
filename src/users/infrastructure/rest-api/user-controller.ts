@@ -94,4 +94,10 @@ export class UserController {
       user: dtoUser,
     });
   }
+
+  async singOut(req: Request, res: Response): Promise<void> {
+    res.clearCookie(config.cookie.keyName);
+
+    res.status(200).send({});
+  }
 }

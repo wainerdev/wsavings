@@ -14,12 +14,14 @@ export class TransactionService {
       `[${this.serviceName}] - Creating transaction for user: ${transaction.userId}`
     );
 
+    //TODO: valid if user exists here, return null if not
+
     const createdTransaction = await this.transactionRepository.create(
       transaction
     );
 
     this.logger.info(
-      `[${this.serviceName}] - Created transaction with id: ${createdTransaction.id}`
+      `[${this.serviceName}] - Created transaction with id: ${createdTransaction?.id}`
     );
 
     return transaction;
@@ -57,6 +59,28 @@ export class TransactionService {
     this.logger.info(
       `[${this.serviceName}] - Found ${transactions.length} transactions for user
       ${userId} between dates: ${startDate} and ${endDate}`
+    );
+
+    return transactions;
+  }
+
+  async findByCategoryId(
+    userId: number,
+    categoryId: number
+  ): Promise<Transaction[]> {
+    this.logger.info(
+      `[${this.serviceName}] - Getting transactions for user: ${userId} and category: ${categoryId}`
+    );
+
+    const transactions =
+      await this.transactionRepository.findByUserAndCategoryId(
+        userId,
+        categoryId
+      );
+
+    this.logger.info(
+      `[${this.serviceName}] - Found ${transactions.length} transactions for user
+      ${userId} and category: ${categoryId}`
     );
 
     return transactions;
